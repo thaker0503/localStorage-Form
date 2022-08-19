@@ -1,59 +1,77 @@
-const userRegisterForm = document.getElementById('userRegisterForm');
-const nameInput = userRegisterForm['name'];
-const passwordInput = userRegisterForm['password'];
-const emailInput = userRegisterForm['email'];
-const submitButton = userRegisterForm['submit'];
+const signUp = (e) => {
+    let userRegisterForm = document.getElementById('userRegisterForm'),
+        name = userRegisterForm['name'].value,
+        email = userRegisterForm['email'].value,
+        pwd = userRegisterForm['password'].value;
 
-window.onload = () => {
-    
-    submitButton.disabled = true;
-    nameInput.addEventListener('keyup', checkUserInput);
-    passwordInput.addEventListener('keyup', checkUserInput);
-    emailInput.addEventListener('keyup', checkUserInput);
-    
+    let formData = JSON.parse(localStorage.getItem('formData')) || [];
+
+    let exist = formData.length && 
+        JSON.parse(localStorage.getItem('formData')).some(data => 
+            data.name.toLowerCase() == name.toLowerCase() && 
+            data.email.toLowerCase() == email.toLowerCase() &&
+            data.pwd.toLowerCase() == pwd.toLowerCase());
+
+    if(!exist){
+        formData.push({ name,email, pwd });
+        localStorage.setItem('formData', JSON.stringify(formData));
+        document.querySelector('form').reset();
+        document.getElementById('name').focus();
+        alert("Account Created.\n\nPlease Sign In using the link below.");
+        location.href = "./login.html";
+    }
+    else{
+        alert("Ooopppssss... Duplicate found!!!\nYou have already signed up\nPlease Sign In");
+        location.href = "./login.html";
+
+    }
+    e.preventDefault();
 }
 
-const users = JSON.parse(localStorage.getItem('userDetails')) || [];
-
-submitButton.addEventListener('click', (event) => {
-    event.preventDefault();
-    const name = nameInput.value;
-    const password = passwordInput.value;
-    const email = emailInput.value;
-    if (checkUser(email)) {
-        alert('User already exists');
-        window.location.href = 'login.html';
-        return;
-    } else {
-        const user = {
-            name,
-            email,
-            password
-        };
-        users.push(user);
-        localStorage.setItem('userDetails', JSON.stringify(users));
-        alert('User registered successfully');
-        window.location.href = 'login.html';
+function signIn(e) {
+    let userLoginForm = document.getElementById("userLoginForm"),
+        email = userLoginForm['email'].value, 
+        pwd = userLoginForm['password'].value;
+    let formData = JSON.parse(localStorage.getItem('formData')) || [];
+    let exist = formData.length && JSON.parse(localStorage.getItem('formData')).some(data => data.email.toLowerCase() == email && data.pwd.toLowerCase() == pwd);
+    if(!exist){
+        location.href = "./index.html";
     }
-});
+    else{
+        let index = formData.findIndex(data => data.email.toLowerCase() == email && data.pwd.toLowerCase() == pwd);
+        location.replace("./dashboard.html?" + index);
 
+        
 
-const checkUser = (email) => {
-    for (let i = 0; i < users.length; i++) {
-        if (users[i].email === email) {
-            return true;
-        }
+        
     }
-    return false;
-}
-
-const checkUserInput = () => {
-    if (nameInput.value.length > 0 && passwordInput.value.length > 0 && emailInput.value.length > 0) {
-        submitButton.disabled = false;
-    } else {
-        submitButton.disabled = true;
-    }
+    e.preventDefault();
 }
 
 
-    
+function logout(e){
+    location.href = "./login.html";
+    e.preventDefault();
+}
+
+function displayUserDetails(index){
+    let formData = JSON.parse(localStorage.getItem('formData'));
+    let userDetails = formData[index];
+    document.getElementById('userName').innerText = "Welcome " + userDetails.name;
+    document.getElementById('userEmail').innerHTML = "Email: " + userDetails.email;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

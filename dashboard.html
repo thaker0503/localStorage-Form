@@ -4,22 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./app.js" defer></script>
     <title>Dashboard</title>
-    <!-- <script src="./app.js" defer></script> -->
 </head>
 <body>
-    <div id="dashboardOutput">
-    </div>
-
+    <h1 id="userName"></h1>
+    <h1 id="userEmail"></h1>
+    <button id="btnlogout" name="logout" onclick="logout(event)">Log Out</button>
     <script>
-        const userDetails = localStorage.getItem('userDetails');
-        
-
-
-        
-        
-
-        
+        window.onload = () => {
+            let index = window.location.search.split('?')[1];
+            displayUserDetails(index);
+        }
     </script>
 </body>
 </html>
