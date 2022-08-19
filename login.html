@@ -21,6 +21,23 @@
         const loginEmailInput = userLoginForm['loginEmail'];
         const loginPasswordInput = userLoginForm['loginPassword'];
         const loginButton = userLoginForm['login'];
+        const userDetails = localStorage.getItem('userDetails');
+
+
+        //check the user login details in local storage and redirect to the dashboard page
+        // function checkLoginDetails() {
+        //     const loginEmail = userDetails.split(',')[1];
+        //     console.log(loginEmail);
+        //     const loginPassword = localStorage.getItem('email');
+        //     if (loginEmail === loginEmailInput.value && loginPassword === loginPasswordInput.value) {
+
+        //         window.location.href = 'dashboard.html';
+        //     } else {
+        //         alert('Invalid login details');
+        //     }
+        // }
+        // loginButton.addEventListener('click', checkLoginDetails);
+        
 
         const login = (email, password) => {
             const user = getUser(email);
@@ -53,7 +70,6 @@
             const password = loginPasswordInput.value;
             const user = login(email, password);
             if (user) {
-                localStorage.setItem('loggedUser', JSON.stringify(user));
                 window.location.href = 'dashboard.html';
 
             } else {
