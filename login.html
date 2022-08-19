@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- <script src="./app.js" defer></script> -->
+</head>
+<body>
+    <h1>Login Form</h1>
+    <form id="userLoginForm">
+        <input type="email" placeholder="Email Id" name="loginEmail" required />
+        <input type="password" placeholder="Password" name="loginPassword" required />
+        <button id="btnLogin" name="login">Login</button>
+    </form>
+
+
+    <script>
+        const userLoginForm = document.getElementById('userLoginForm');
+        const loginEmailInput = userLoginForm['loginEmail'];
+        const loginPasswordInput = userLoginForm['loginPassword'];
+        const loginButton = userLoginForm['login'];
+
+        const login = (email, password) => {
+            const user = getUser(email);
+            if (user) {
+                if (user.password === password) {
+                    return user;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        const getUser = (email) => {
+            const users = JSON.parse(localStorage.getItem('userDetails'));
+            if (users) {
+                for (let i = 0; i < users.length; i++) {
+                    if (users[i].email === email) {
+                        return users[i];
+                    }
+                }
+            }
+            return false;
+        }
+
+        loginButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            const email = loginEmailInput.value;
+            const password = loginPasswordInput.value;
+            const user = login(email, password);
+            if (user) {
+                localStorage.setItem('loggedUser', JSON.stringify(user));
+                window.location.href = 'dashboard.html';
+
+            } else {
+                alert('Invalid email or password');
+            }
+        });
+
+        
+
+
+
+
+    </script>
+</body>
+</html>
