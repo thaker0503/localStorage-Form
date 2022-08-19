@@ -6,18 +6,12 @@ const signUp = (e) => {
 
     let formData = JSON.parse(localStorage.getItem('formData')) || [];
 
-    let exist = formData.length && 
-        JSON.parse(localStorage.getItem('formData')).some(data => 
-            data.name.toLowerCase() == name.toLowerCase() && 
-            data.email.toLowerCase() == email.toLowerCase() &&
-            data.pwd.toLowerCase() == pwd.toLowerCase());
+    let exist = formData.length && JSON.parse(localStorage.getItem('formData')).some(data => data.email.toLowerCase() == email.toLowerCase()); 
 
     if(!exist){
         formData.push({ name,email, pwd });
         localStorage.setItem('formData', JSON.stringify(formData));
-        document.querySelector('form').reset();
-        document.getElementById('name').focus();
-        alert("Account Created.\n\nPlease Sign In using the link below.");
+        alert("Registered Successfully\nPlease Login");
         location.href = "./login.html";
     }
     else{
