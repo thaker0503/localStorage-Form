@@ -47,9 +47,9 @@ main{
     height: 100px;
     /* background-color: #d7d7d7; */
     border-radius: 50%;
-    outline: inset;
+     outline: 10px inset #d7d7d7;
     fill: none;
-    animation: loader 200ms infinite;
+    animation: loader 1s infinite;
 }
 main h1,main div{
     color: #d7d7d7;
@@ -113,5 +113,6 @@ button:hover{
     }
 }
 @keyframes loader {
+    0%{transform: rotate(0deg);}
     100%{transform: rotate(360deg);}
 }
