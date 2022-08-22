@@ -28,16 +28,25 @@ function signIn(e) {
         email = userLoginForm['email'].value, 
         pwd = userLoginForm['password'].value;
     let formData = JSON.parse(localStorage.getItem('formData')) || [];
-    let exist = formData.length && JSON.parse(localStorage.getItem('formData')).some(data => data.email.toLowerCase() == email && data.pwd.toLowerCase() == pwd);
+    let exist = formData.length && JSON.parse(localStorage.getItem('formData')).some(data => data.email.toLowerCase() == email);
     if (!exist) {
-        alert("User dosn't exist \n Please Register!!");
+        alert("User doesn't exist \n Please Register!!");
         location.href = "./index.html";
+        console.log("Parent If")
     }
-    else{
-        let index = formData.findIndex(data => data.email.toLowerCase() == email && data.pwd.toLowerCase() == pwd);
-        formData[index].isLoggedIn = true;
-        localStorage.setItem('formData', JSON.stringify(formData));
-        location.replace("./dashboard.html?" + index);
+    else {
+        console.log("parent else")
+        if (JSON.parse(localStorage.getItem('formData')).some(data => data.email.toLowerCase() == email && data.pwd.toLowerCase() == pwd)) {
+            console.log("child If")
+            let index = formData.findIndex(data => data.email.toLowerCase() == email && data.pwd.toLowerCase() == pwd);
+            formData[index].isLoggedIn = true;
+            localStorage.setItem('formData', JSON.stringify(formData));
+            location.replace("./dashboard.html?" + index);
+        }
+        else {
+            console.log("child else")
+            alert("Email or password is invalid!!!!");
+        }
     }
     e.preventDefault();
 }
@@ -65,6 +74,10 @@ function displayUserDetails(index) {
         location.href = "./login.html";
     }
 }
+
+
+
+
 
 
 
