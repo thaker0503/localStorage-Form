@@ -28,7 +28,8 @@ function signIn(e) {
         pwd = userLoginForm['password'].value;
     let formData = JSON.parse(localStorage.getItem('formData')) || [];
     let exist = formData.length && JSON.parse(localStorage.getItem('formData')).some(data => data.email.toLowerCase() == email && data.pwd.toLowerCase() == pwd);
-    if(!exist){
+    if (!exist) {
+        alert("User dosn't exist \n Please Register!!");
         location.href = "./index.html";
     }
     else{
