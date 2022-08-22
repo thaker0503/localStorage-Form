@@ -2,14 +2,15 @@ const signUp = (e) => {
     let userRegisterForm = document.getElementById('userRegisterForm'),
         name = userRegisterForm['name'].value,
         email = userRegisterForm['email'].value,
-        pwd = userRegisterForm['password'].value;
+        pwd = userRegisterForm['password'].value,
+        isLoggedIn = false;
 
     let formData = JSON.parse(localStorage.getItem('formData')) || [];
 
     let exist = formData.length && JSON.parse(localStorage.getItem('formData')).some(data => data.email.toLowerCase() == email.toLowerCase()); 
 
     if(!exist){
-        formData.push({ name,email, pwd });
+        formData.push({ name,email, pwd, isLoggedIn });
         localStorage.setItem('formData', JSON.stringify(formData));
         alert("Registered Successfully\nPlease Login");
         location.href = "./login.html";
@@ -34,29 +35,36 @@ function signIn(e) {
     }
     else{
         let index = formData.findIndex(data => data.email.toLowerCase() == email && data.pwd.toLowerCase() == pwd);
+        formData[index].isLoggedIn = true;
+        localStorage.setItem('formData', JSON.stringify(formData));
         location.replace("./dashboard.html?" + index);
-
-        
-
-        
     }
     e.preventDefault();
 }
 
 
-function logout(e){
+function logout(e) {
+    let formData = JSON.parse(localStorage.getItem('formData'));
+    let index = formData.findIndex(data => data.isLoggedIn == true);
+    formData[index].isLoggedIn = false;
+    localStorage.setItem('formData', JSON.stringify(formData));
     location.href = "./login.html";
     e.preventDefault();
 }
 
-function displayUserDetails(index){
+function displayUserDetails(index) {
     let formData = JSON.parse(localStorage.getItem('formData'));
     let userDetails = formData[index];
-    document.getElementById('userName').innerText = "Welcome " + userDetails.name;
-    document.getElementById('userEmail').innerHTML = "Email: " + userDetails.email;
+    // check if user is logged in
+    if (userDetails.isLoggedIn) {
+        document.getElementById('userName').innerText = "Welcome " + userDetails.name;
+        document.getElementById('userEmail').innerHTML = "Email: " + userDetails.email;
+    }
+    else {
+        alert("Please Sign In");
+        location.href = "./login.html";
+    }
 }
-
-
 
 
 
