@@ -114,6 +114,7 @@ input[name=email]::placeholder{
     font-size: 20px;
 }
 #invalidName{
+    --invalid-error-message: none; 
     position: relative;
 }
 #invalidName::after{
@@ -125,9 +126,9 @@ input[name=email]::placeholder{
     font-size: larger;
     position: absolute;
     left: 0;
-    bottom: 90%;
+    bottom: -110%;
     border-radius: 5px;
-    display: none; 
+    display: var(--invalid-error-message, none); 
 }
 #invalidEmail{
     position: relative;
@@ -141,9 +142,9 @@ input[name=email]::placeholder{
     font-size: larger;
     position: absolute;
     left: 0;
-    bottom: 90%;
+    bottom: -110%;
     border-radius: 5px;
-    display: none; 
+    display: var(--invalid-error-message, none);
 }
 #invalidPassword{
     position: relative;
@@ -157,9 +158,9 @@ input[name=email]::placeholder{
     font-size: larger;
     position: absolute;
     left: 0;
-    bottom: 90%;
+    bottom: -110%;
     border-radius: 5px;
-    display: none; 
+    display: var(--invalid-error-message, none);
 }
 button{
     display: flex;
@@ -196,6 +197,9 @@ button:hover{
     }
     button{
         font-size: 15px;
+    }
+    .alert{
+        width: 100%;
     }
 }
 @keyframes loader {

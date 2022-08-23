@@ -24,13 +24,17 @@ const signUp = (e) => {
     }
     else {
         if (!validateName(name)) {
-            alert("Please enter valid name");
+            const element = document.querySelector("#invalidName");
+            element.style.setProperty("--invalid-error-message", "block");
+            
         }
         else if (!validateEmail(email)) {
-            alert("Invalid Email");
+            const element = document.querySelector("#invalidEmail");
+            element.style.setProperty("--invalid-error-message", "block");
         }
         else if (!validatePassword(pwd)) {
-            alert("Invalid Password");
+            const element = document.querySelector("#invalidPassword");
+            element.style.setProperty("--invalid-error-message", "block");
         }
         
     }
@@ -44,8 +48,8 @@ function signIn(e) {
     let formData = JSON.parse(localStorage.getItem('formData')) || [];
     let exist = formData.length && JSON.parse(localStorage.getItem('formData')).some(data => data.email.toLowerCase() == email.toLowerCase());
     if (!exist) {
-        alert("User doesn't exist \n Please Register!!");
-        location.href = "./index.html";
+        const alert = document.getElementById("alert");
+        alert.style.display = "block";
         console.log("Parent If")
     }
     else {
@@ -57,7 +61,8 @@ function signIn(e) {
             location.replace("./dashboard.html?" + index);
         }
         else {
-            alert("Invalid Password");
+            const alert = document.getElementById("alert");
+            alert.style.display = "block";
         }
 
     }
