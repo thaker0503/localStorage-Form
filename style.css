@@ -47,7 +47,8 @@ main{
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    outline: 10px inset #d7d7d7;
+    border: 10px outset linear-gradient(to right, red, yellow);
+    
     fill: none;
     animation: loader 1s infinite;
 }
