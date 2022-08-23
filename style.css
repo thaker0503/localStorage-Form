@@ -61,7 +61,10 @@ main{
     position: absolute;
     font-size: 20px;
     top: 7%;
-    display: ;
+    display: block;
+    outline: 10px inset #d7d7d7;
+    fill: none;
+    animation: loader 1s infinite;
 }
 main h1,main div{
     color: #d7d7d7;
