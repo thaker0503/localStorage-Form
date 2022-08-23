@@ -10,6 +10,8 @@
 </head>
 <body>
     <main>
+        <div class="loading" id="loader"></div>
+        <div class="alert" id="alert">Hello</div>
         <div id="dashboardOutput">
             <div id="userName"></div>
             <div id="userEmail"></div>
@@ -21,6 +23,14 @@
 
     <script>
         window.onload = () => {
+            setInterval(() => {
+                document.body.style.backgroundColor = "#5e5e5e";
+                document.body.style.transition = "background-color .3s ease-in";
+                document.getElementById("dashboardOutput").style.display = "flex";
+            },2000);
+            setTimeout(() => {
+                document.getElementById("loader").style.display = "none";
+            },2000);
             let index = window.location.search.split('?')[1];
             let formData = JSON.parse(localStorage.getItem("formData"));
             if (index > formData.length-1) {
