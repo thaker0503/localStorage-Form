@@ -33,7 +33,7 @@ function signIn(e) {
         email = userLoginForm['email'].value, 
         pwd = userLoginForm['password'].value;
     let formData = JSON.parse(localStorage.getItem('formData')) || [];
-    let exist = formData.length && formData.some(data => data.email.toLowerCase() == email.toLowerCase());
+    let exist = formData.length && JSON.parse(localStorage.getItem('formData')).some(data => data.email.toLowerCase() == email.toLowerCase());
     if (!exist) {
         alert("User doesn't exist \n Please Register!!");
         location.href = "./index.html";
@@ -41,17 +41,16 @@ function signIn(e) {
     }
     else {
         console.log("parent else")
-        if (formData.some(data => data.email.toLowerCase() == email && data.pwd.toLowerCase() == pwd)) {
-            console.log("child If")
-            // let index = formData.findIndex(data => data.email.toLowerCase() == email && data.pwd.toLowerCase() == pwd);
-            // formData[index].isLoggedIn = true;
-            // localStorage.setItem('formData', JSON.stringify(formData));
-            // location.replace("./dashboard.html?" + index);
+        let index = formData.findIndex(data => data.email.toLowerCase() == email.toLowerCase());
+        if (formData[index].email == email && formData[index].pwd == pwd) {
+            formData[index].isLoggedIn = true;
+            localStorage.setItem('formData', JSON.stringify(formData));
+            location.replace("./dashboard.html?" + index);
         }
         else {
-            console.log("child else")
-            alert("Email or password is invalid!!!!");
+            alert("Invalid Password");
         }
+
     }
     e.preventDefault();
 }
