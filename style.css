@@ -39,18 +39,16 @@ main{
     align-items: center;
     height: 50vh;
 }
-.loading{
+.loading, .loading img{
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    border: 10px outset linear-gradient(to right, red, yellow);
-    
     fill: none;
-    animation: loader 1s infinite;
+    /* animation: loader 1s infinite; */
 }
 .alert{
     background-color: #d7d7d7;
