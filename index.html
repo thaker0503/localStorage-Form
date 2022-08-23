@@ -12,9 +12,9 @@
     <main>
         <h1>Registration Form</h1>
         <form id="userRegisterForm" role="form" onsubmit="signUp(event)" autocomplete="off">
-          <input type="text" placeholder="Name" name="name" required />
-          <input type="email" placeholder="Email Id" name="email" required />
-          <input type="password" placeholder="Password" name="password" required />
+          <span id="invalidName"><input type="text" placeholder="Name" name="name" required /></span>
+          <span id="invalidEmail"><input type="email" placeholder="Email Id" name="email" required /></span>
+          <span id="invalidPassword"><input type="password" placeholder="Password" name="password" required /></span>
           <button id="btn" name="submit">Register</button>
         </form>
     

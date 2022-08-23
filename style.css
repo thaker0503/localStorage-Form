@@ -53,7 +53,7 @@ main{
 }
 .alert{
     background-color: #d7d7d7;
-    width: 100%;
+    width: 90%;
     height: 40px;
     border-radius: 5px;
     position: absolute;
@@ -112,6 +112,54 @@ input[name=name]::placeholder,input[name=password]::placeholder,
 input[name=email]::placeholder{
     color: #d7d7d7;
     font-size: 20px;
+}
+#invalidName{
+    position: relative;
+}
+#invalidName::after{
+    content: "\26A0    Please enter valid name.";
+    background: #2C2C2C;
+    color: #d7d7d7;
+    width: max-content;
+    padding: 5px;
+    font-size: larger;
+    position: absolute;
+    left: 0;
+    bottom: 90%;
+    border-radius: 5px;
+    display: none; 
+}
+#invalidEmail{
+    position: relative;
+}
+#invalidEmail::after{
+    content: "\26A0    Please enter valid email address.";
+    background: #2C2C2C;
+    color: #d7d7d7;
+    width: max-content;
+    padding: 5px;
+    font-size: larger;
+    position: absolute;
+    left: 0;
+    bottom: 90%;
+    border-radius: 5px;
+    display: none; 
+}
+#invalidPassword{
+    position: relative;
+}
+#invalidPassword::after{
+    content: "\26A0 Password must be atleast 8 digits.";
+    background: #2C2C2C;
+    color: #d7d7d7;
+    width: max-content;
+    padding: 5px;
+    font-size: larger;
+    position: absolute;
+    left: 0;
+    bottom: 90%;
+    border-radius: 5px;
+    display: none; 
 }
 button{
     display: flex;

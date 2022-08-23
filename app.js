@@ -23,7 +23,16 @@ const signUp = (e) => {
         }
     }
     else {
-        alert("Please enter valid details");
+        if (!validateName(name)) {
+            alert("Please enter valid name");
+        }
+        else if (!validateEmail(email)) {
+            alert("Invalid Email");
+        }
+        else if (!validatePassword(pwd)) {
+            alert("Invalid Password");
+        }
+        
     }
     e.preventDefault();
 }
@@ -79,11 +88,6 @@ function displayUserDetails(index) {
     }
 }
 
-const closeBtn = document.getElementById('closeBtn');
-function closeBtnClick(e) {
-    e.preventDefault();
-    document.getElementById('userRegisterForm').reset();
-}
     
 
 
