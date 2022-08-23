@@ -46,10 +46,8 @@ main{
     align-items: center;
     width: 100px;
     height: 100px;
-    /* background-color: #d7d7d7; */
     border-radius: 50%;
     outline: 10px inset #d7d7d7;
-    /* border: 10px solid #d7d7d7; */
     fill: none;
     animation: loader 1s infinite;
 }
@@ -60,11 +58,36 @@ main{
     border-radius: 5px;
     position: absolute;
     font-size: 20px;
+    color: #171717;
     top: 7%;
-    display: block;
-    outline: 10px inset #d7d7d7;
-    fill: none;
-    animation: loader 1s infinite;
+    display: none;
+    
+}
+.alert-icon-wrapper{
+    width: 10px;
+    color: #171717;
+}
+.alert-icon{
+    font-size: 30px;
+    position: absolute;
+    top: 8%;
+    left: 4%;
+}
+.alert-text{
+    position: absolute;
+    left: 14%;
+    top: 18%;
+    text-align: center;
+    
+}
+#closeBtn{
+    color: #171717;
+    position: absolute;
+    font-size: 30px;
+    right: 4%;
+    top: 10%;
+    cursor: pointer;
+
 }
 main h1,main div{
     color: #d7d7d7;

@@ -6,13 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="./app.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.css"/>
     <title>Dashboard</title>
 </head>
 <body>
     <main>
         <div class="loading" id="loader"></div>
 
-        <div class="alert" id="alert">Hello</div>
+        <div class="alert" id="alert">
+            <div class="alert-icon-wrapper">
+                <i class="fa fa-triangle-exclamation alert-icon"></i>
+            </div>
+            <span class="alert-text">Logged in successfully...</span>
+            <i class="fa fa-xmark" id="closeBtn" onclick="closeBtnClick(event)"></i>
+        </div>
 
         <div id="dashboardOutput">
             <div id="userName"></div>
@@ -25,14 +32,6 @@
 
     <script>
         window.onload = () => {
-            setInterval(() => {
-                document.body.style.backgroundColor = "#5e5e5e";
-                document.body.style.transition = "background-color .3s ease-in";
-                document.getElementById("dashboardOutput").style.display = "flex";
-            },2000);
-            setTimeout(() => {
-                document.getElementById("loader").style.display = "none";
-            },2000);
             let index = window.location.search.split('?')[1];
             let formData = JSON.parse(localStorage.getItem("formData"));
             if (index > formData.length-1) {
@@ -41,7 +40,17 @@
             }
             else {
                 displayUserDetails(index);
+                setInterval(() => {
+                    document.body.style.backgroundColor = "#5e5e5e";
+                    document.body.style.transition = "background-color .3s ease-in";
+                    document.getElementById("dashboardOutput").style.display = "flex";
+                    document.getElementById("alert").style.display = "block";
+                }, 2000);
+                setTimeout(() => {
+                    document.getElementById("loader").style.display = "none";
+                }, 2000);
             }
+            
         }
         
     </script>
