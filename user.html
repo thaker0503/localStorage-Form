@@ -135,7 +135,7 @@
             <a href="./user.html">User</a>
         </div>
         <div class="navbar-cart">
-            <a href="#" ><i class="fa-solid fa-cart-shopping" id="cart" > Cart (0)</i></a>
+            <a href="./cart.html" ><i class="fa-solid fa-cart-shopping" id="cart" > Cart (0)</i></a>
         </div>
     </div>
     <main>
@@ -152,6 +152,7 @@
                     items[index].quantity = 1;
                     localStorage.setItem("items", JSON.stringify(items));
                     console.log(items[index].addToCart);
+                    window.location.reload();
                 }
             });
             
@@ -164,6 +165,7 @@
                 let status = item.addToCart;
                 if (status == true) {
                     document.querySelector("#cart").innerHTML = "Cart (" + ++count + ")";
+                    
                 }
             })
         }
@@ -186,7 +188,7 @@
                                 <p class="card-title">${item.name}</p>
                                 <p class="card-price">₹${item.price}</p>
                                 <p class="card-text">${item.description}</p>
-                                <button href="#" class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
+                                <button class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
                             </div>
                         `;
                             document.querySelector('main').appendChild(card);
