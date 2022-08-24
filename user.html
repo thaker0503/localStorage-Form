@@ -123,19 +123,6 @@
             position: relative;
             --count: "0";
         }
-        #cart::before{
-            content: var(--count);
-            font-family: FontAwesome;
-            color: #2C2C2C;
-            font-size: 10px;
-            /* margin-right: 10px; */
-            position: absolute;
-            right: 15%;
-            top: -30%;
-            background-color: #fff;
-            padding: 3px;
-            border-radius: 50%;
-        }
         
 
         
@@ -148,7 +135,7 @@
             <a href="./user.html">User</a>
         </div>
         <div class="navbar-cart">
-            <a href="#" id="cart"><i class="fa-solid fa-cart-shopping" ></i></a>
+            <a href="#" ><i class="fa-solid fa-cart-shopping" id="cart" > Cart (0)</i></a>
         </div>
     </div>
     <main>
@@ -156,9 +143,29 @@
     </main>
 
     <script>
-
-        function addToCart(){
+        cartCount();
+        function addToCart(id){
+            const items = JSON.parse(localStorage.getItem("items"));
+            items.forEach((item,index) => {
+                if(index === id){
+                    items[index].addToCart = true;
+                    items[index].quantity = 1;
+                    localStorage.setItem("items", JSON.stringify(items));
+                    console.log(items[index].addToCart);
+                }
+            });
             
+        }
+
+        function cartCount(){
+            const items = JSON.parse(localStorage.getItem("items"));
+            var count = 0;
+            items.forEach(item => {
+                let status = item.addToCart;
+                if (status == true) {
+                    document.querySelector("#cart").innerHTML = "Cart (" + ++count + ")";
+                }
+            })
         }
 
 
@@ -169,7 +176,7 @@
                 
                 if(items.length > 0){
                     
-                    items.forEach(item => {
+                    items.forEach((item,index) => {
                         if(item.status == 'active'){
                             let card = document.createElement('div');
                             card.classList.add('card');
@@ -179,7 +186,7 @@
                                 <p class="card-title">${item.name}</p>
                                 <p class="card-price">₹${item.price}</p>
                                 <p class="card-text">${item.description}</p>
-                                <button href="#" class="btn" id="addToCartBtn" onclick="addToCart()">Add To Cart</button>
+                                <button href="#" class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
                             </div>
                         `;
                             document.querySelector('main').appendChild(card);

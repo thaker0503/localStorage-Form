@@ -303,7 +303,9 @@
                     price: itemPrice,
                     description: itemDescription,
                     imageUrl: itemImageUrl,
-                    status: 'active'
+                    status: 'active',
+                    addToCart: false,
+                    quantity: 0
                 }
                 var items = localStorage.getItem('items');
                 if (items === null) {
@@ -357,16 +359,17 @@
             var items = JSON.parse(localStorage.getItem('items'));
             items.splice(index, 1);
             localStorage.setItem('items', JSON.stringify(items));
+            window.location.reload();
         }
 
         function statusItem(index) {
             var items = JSON.parse(localStorage.getItem('items'));
             if (items[index].status == 'active') {
                 items[index].status = 'inactive';
-                document.getElementById('statusBtn').innerHTML = 'inactive';
+                document.getElementById(`statusBtn${index}`).innerHTML = 'inactive';
             } else {
                 items[index].status = 'active';
-                document.getElementById('statusBtn').innerHTML = 'active';
+                document.getElementById(`statusBtn${index}`).innerHTML = 'active';
             }
             localStorage.removeItem('items');
             localStorage.setItem('items', JSON.stringify(items));
@@ -388,7 +391,7 @@
                 type.innerHTML = item.type;
                 price.innerHTML = item.price;
                 edit.innerHTML = `<a href="#" id="editBtn" onclick="editItem(${index})"></a>`;
-                status.innerHTML = `<a href="#" id="statusBtn" onclick="statusItem(${index})">${item.status}</a>`;
+                status.innerHTML = `<a href="#" id="statusBtn${index}" onclick="statusItem(${index})">${item.status}</a>`;
                 del.innerHTML = `<a href="#" id="deleteBtn" onclick="deleteItem(${index})"></a>`;
             })
         }
