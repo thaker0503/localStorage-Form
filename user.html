@@ -138,33 +138,30 @@
         function getItems(){
             let items = JSON.parse(localStorage.getItem('items'));
             if(items){
-                // check if the items array is empty
+                
                 if(items.length > 0){
-                    // loop through the items array and display the items
-                    items.forEach(function(item){
-                        //check if the particular item name is empty
-                        if(item.name !== ""){
-                            // if it is empty
+                    
+                    items.forEach(item => {
+                        if(item.status == 'active'){
+                            let card = document.createElement('div');
+                            card.classList.add('card');
+                            card.innerHTML = `
+                            <img src="${item.imageUrl}" alt="">
+                            <div class="card-body">
+                                <p class="card-title">${item.name}</p>
+                                <p class="card-price">$${item.price}</p>
+                                <p class="card-text">${item.description}</p>
+                                <button href="#" class="btn btn-primary">Add To Cart</button>
+                            </div>
+                        `;
+                            document.querySelector('main').appendChild(card);
+                        }
+                        else{
+                            console.log('no items');
                         }
                     });
-                    items.forEach(item => {
-                        let card = document.createElement('div');
-                        card.classList.add('card');
-                        card.innerHTML = `
-                        <img src="${item.imageUrl}" alt="">
-                        <div class="card-body">
-                            <p class="card-title">${item.name}</p>
-                            <p class="card-price">$${item.price}</p>
-                            <p class="card-text">${item.description}</p>
-                            <button href="#" class="btn btn-primary">Add To Cart</button>
-                        </div>
-                    `;
-                        document.querySelector('main').appendChild(card);
-                    })
-                }
-                
-            }   
-
+                } 
+            } 
         }  
         getItems();
 

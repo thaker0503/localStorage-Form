@@ -299,6 +299,7 @@
                 localStorage.setItem('items',JSON.stringify(items));
                 form.reset();
                 document.getElementById('popUpAdd').style.display = 'none';
+                location.reload();
             } )
 
         }
@@ -306,17 +307,17 @@
         function deleteItem(index){
             var items = JSON.parse(localStorage.getItem('items'));
             items.splice(index,1);
-            localStorage.removeItem('items');
             localStorage.setItem('items',JSON.stringify(items));
         }
 
         function statusItem(index){
             var items = JSON.parse(localStorage.getItem('items'));
             if(items[index].status == 'active'){
-                items[index].status = 'deactive';
-                document.getElementById('statusBtn').innerHTML = 'Active';
+                items[index].status = 'inactive';
+                document.getElementById('statusBtn').innerHTML = 'inactive';
             }else{
                 items[index].status = 'active';
+                document.getElementById('statusBtn').innerHTML = 'active';
             }
             localStorage.removeItem('items');
             localStorage.setItem('items',JSON.stringify(items));
@@ -326,7 +327,6 @@
         function getItems() {
             const data = JSON.parse(localStorage.getItem("items"));
             data.forEach(function(item,index) {
-                // check if item name is empty
                 if(item.name !== ''){
                     const table = document.getElementsByTagName("table")[0];
                     const row = table.insertRow();
