@@ -76,6 +76,7 @@
             justify-content: space-between;
             /* align-items: center; */
             flex-direction: column;
+            
         }
         .card-title{
             font-size: 26px;
@@ -88,8 +89,10 @@
             color: #2C2C2C;
         }
         .card-text{
-            font-size: 20px;
+            font-size: 16px;
             color: #2C2C2C;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .btn{
             font-size: 20px;
@@ -149,24 +152,13 @@
         </div>
     </div>
     <main>
-        <div class="card">
-            <img src="https://picsum.photos/300/200" alt="">
-            <div class="card-body">
-                <p class="card-title">Card title</p>
-                <p class="card-price">$10</p>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <button href="#" class="btn" id="addToCartBtn" onclick="addToCart()">Add To Cart</button>
-            </div>
-        </div>
+        
     </main>
 
     <script>
 
         function addToCart(){
-            const element = document.querySelector("#cart");
-            element.style.setProperty("--count", "'1'");
-            document.getElementById("addToCartBtn").innerHTML = "Added To Cart";
-            document.getElementById("addToCartBtn").classList.add("btn-disabled");
+            
         }
 
 
@@ -185,9 +177,9 @@
                             <img src="${item.imageUrl}" alt="">
                             <div class="card-body">
                                 <p class="card-title">${item.name}</p>
-                                <p class="card-price">$${item.price}</p>
+                                <p class="card-price">₹${item.price}</p>
                                 <p class="card-text">${item.description}</p>
-                                <button href="#" class="btn btn-primary">Add To Cart</button>
+                                <button href="#" class="btn" id="addToCartBtn" onclick="addToCart()">Add To Cart</button>
                             </div>
                         `;
                             document.querySelector('main').appendChild(card);
