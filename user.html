@@ -25,6 +25,7 @@
             align-items: center;
             box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
             padding: 0 20px;
+            position: static;
         }
         .navbar a{
             text-decoration: none;
@@ -102,12 +103,37 @@
             text-align: left;
             transition: all .3s ease-in-out;
         }
+        .btn-disabled{
+            cursor: not-allowed;
+            background-color: #2C2C2C;
+            color: #fff;
+            text-align: center;
+        }
         .btn:hover{
             background-color: #2C2C2C;
             color: #fff;
             text-align: center;
             transition: all .3s ease-in-out;
         }
+        #cart{
+            font-size: larger;
+            position: relative;
+            --count: "0";
+        }
+        #cart::before{
+            content: var(--count);
+            font-family: FontAwesome;
+            color: #2C2C2C;
+            font-size: 10px;
+            /* margin-right: 10px; */
+            position: absolute;
+            right: 15%;
+            top: -30%;
+            background-color: #fff;
+            padding: 3px;
+            border-radius: 50%;
+        }
+        
 
         
     </style>
@@ -119,7 +145,7 @@
             <a href="./user.html">User</a>
         </div>
         <div class="navbar-cart">
-            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" id="cart"><i class="fa-solid fa-cart-shopping" ></i></a>
         </div>
     </div>
     <main>
@@ -129,12 +155,22 @@
                 <p class="card-title">Card title</p>
                 <p class="card-price">$10</p>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <button href="#" class="btn btn-primary">Add To Cart</button>
+                <button href="#" class="btn" id="addToCartBtn" onclick="addToCart()">Add To Cart</button>
             </div>
         </div>
     </main>
 
     <script>
+
+        function addToCart(){
+            const element = document.querySelector("#cart");
+            element.style.setProperty("--count", "'1'");
+            document.getElementById("addToCartBtn").innerHTML = "Added To Cart";
+            document.getElementById("addToCartBtn").classList.add("btn-disabled");
+        }
+
+
+
         function getItems(){
             let items = JSON.parse(localStorage.getItem('items'));
             if(items){
