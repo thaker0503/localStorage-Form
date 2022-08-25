@@ -226,13 +226,15 @@
             searchIcon.style.opacity = '1';
             if(e.keyCode == 13){
                 window.location.href = './user.html?search=' + searchBar.value;
-                searchProduct();
+                var searchText = searchBar.value;
+                searchProduct(searchText);
             }
         } );
 
         searchIcon.addEventListener('click', function(){
             window.location.href = './user.html?search=' + searchBar.value;
-            searchProduct();
+            var searchText = searchBar.value;
+            searchProduct(searchText);
         } );
 
         crossIcon.addEventListener('click', function(){
@@ -241,21 +243,19 @@
             searchIcon.style.opacity = '0.5';
         } );
 
-        // create a function that will search for the product name obtained from the search bar and display the products that match the search
-        function searchProduct(){
-            const search = document.getElementById('searchBar').value;
+        function searchProduct(searchText){
+            // const search = document.getElementById('searchBar').value;
             const items = JSON.parse(localStorage.getItem('items'));
-            const searchItem = location.search.split('?')[1].split('search=')[1];
+            // const searchItem = location.search.split('search=')[1];
             items.forEach((item) => {
-                if(item.name === searchItem){
+                if(item.name === searchText){
                     item.filter = true;
                 }
                 item.filter = false;
-
             } );
             localStorage.setItem('items', JSON.stringify(items));
-            window.location.href = './user.html?search=' + searchItem;
-            displaySearch(searchItem);
+            window.location.href = './user.html?search=' + searchText;
+            displaySearch();
 
         }
 
@@ -263,9 +263,10 @@
             const items = JSON.parse(localStorage.getItem('items'));
             const main = document.querySelector('main');
             main.innerHTML = '';
-
-            items.forEach((item,index) => {
-                if(item.filter == true){
+            const matchedItems = items.filter(item => item.filter === true);
+            console.log(matchedItems);
+            matchedItems.forEach((item,index) => {
+                
                     let card = document.createElement('div');
                     card.classList.add('card');
                     card.innerHTML = `
@@ -279,11 +280,8 @@
                         `;
                     document.querySelector('main').appendChild(card);
 
-                }
-                else{
-                    console.log('not found');
-                }
-            } );
+                } );
+            
             localStorage.setItem('items', JSON.stringify(items));
             // window.location.href = './user.html?search=' + searchItem;
         }
