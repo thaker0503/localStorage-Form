@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.css" />
     <title>Admin Page</title>
     <style>
-        @import url('http://fonts.cdnfonts.com/css/winter-poppins');
+        @import url('http://fonts.cdnfonts.com/css/poppins');
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Winter Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
@@ -307,7 +307,8 @@
                     imageUrl: itemImageUrl,
                     status: 'active',
                     addToCart: false,
-                    quantity: 0
+                    quantity: 0,
+                    filter: false
                 }
                 var items = localStorage.getItem('items');
                 if (items === null) {

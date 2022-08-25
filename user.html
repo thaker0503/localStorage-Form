@@ -97,7 +97,7 @@
             opacity: .5;
             position: absolute;
         }
-        .filter-icon{
+        .cross-icon{
             width: 20px;
             height: 20px;
             border-radius: 50%;
@@ -105,12 +105,12 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            right: 50%;
+            right: 29%;
             border: none;
             background-color: transparent;
             opacity: 1;
             position: absolute;
-            z-index: 1;
+            
         }
         main{
             display: flex;
@@ -199,13 +199,13 @@
             <a href="./cart.html"><i class="fa-solid fa-cart-shopping"  ></i><span id="cart">Cart 0</span></a>
         </div>
     </div>
-    <div class="search-bar" id="searchBar">
-        <input type="text" placeholder="Search..."/>
+    <div class="search-bar" >
+        <input type="text" placeholder="Search..." id="searchBar"/>
         <button class="search-icon">
             <i class="fa fa-magnifying-glass"></i>
         </button>
-        <button class="filter-icon">
-            <i class="fa fa-bars-filter"></i>
+        <button class="cross-icon">
+            <i class="fa-solid fa-xmark"></i>
             
         </button>
     </div>
@@ -216,18 +216,78 @@
     <script>
 
         const searchBar = document.getElementById('searchBar');
+        // const searchText = document.getElementById('searchText');
         const searchIcon = document.querySelector('.search-icon');
+        const crossIcon = document.querySelector('.cross-icon');
+        crossIcon.style.display = "none";
         searchBar.addEventListener('keyup', function(e){
+            
+            crossIcon.style.display = "block";
             searchIcon.style.opacity = '1';
             if(e.keyCode == 13){
-                window.location.href = './user.html?q=' + searchBar.value;
+                window.location.href = './user.html?search=' + searchBar.value;
+                searchProduct();
             }
         } );
+
         searchIcon.addEventListener('click', function(){
-            window.location.href = './user.html?q=' + searchBar.value;
+            window.location.href = './user.html?search=' + searchBar.value;
+            searchProduct();
         } );
 
+        crossIcon.addEventListener('click', function(){
+            searchBar.value = '';
+            crossIcon.style.display = "none";
+            searchIcon.style.opacity = '0.5';
+        } );
 
+        // create a function that will search for the product name obtained from the search bar and display the products that match the search
+        function searchProduct(){
+            const search = document.getElementById('searchBar').value;
+            const items = JSON.parse(localStorage.getItem('items'));
+            const searchItem = location.search.split('?')[1].split('search=')[1];
+            items.forEach((item) => {
+                if(item.name === searchItem){
+                    item.filter = true;
+                }
+                item.filter = false;
+
+            } );
+            localStorage.setItem('items', JSON.stringify(items));
+            window.location.href = './user.html?search=' + searchItem;
+            displaySearch(searchItem);
+
+        }
+
+        function displaySearch(){
+            const items = JSON.parse(localStorage.getItem('items'));
+            const main = document.querySelector('main');
+            main.innerHTML = '';
+
+            items.forEach((item,index) => {
+                if(item.filter == true){
+                    let card = document.createElement('div');
+                    card.classList.add('card');
+                    card.innerHTML = `
+                            <img src="${item.imageUrl}" alt="">
+                            <div class="card-body">
+                                <p class="card-title">${item.name}</p>
+                                <p class="card-price">₹${item.price}</p>
+                                <p class="card-text">${item.description}</p>
+                                <button class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
+                            </div>
+                        `;
+                    document.querySelector('main').appendChild(card);
+
+                }
+                else{
+                    console.log('not found');
+                }
+            } );
+            localStorage.setItem('items', JSON.stringify(items));
+            // window.location.href = './user.html?search=' + searchItem;
+        }
+        // searchProduct();
 
 
         cartCount();
