@@ -122,7 +122,7 @@
             height: 100%;
             flex-wrap: wrap;
         }
-        .card{
+        .card,.card1{
             width: min-content;
             height: auto;
             background-color: #fff;
@@ -214,14 +214,99 @@
             font-weight: bold;
             color: #2C2C2C;
             /* text-align: center;   */
-            width: 70%;
-            top: 20%;
+            width: 90%;
+            top: 13%;
             height: auto;
             background-color: #fff;
             padding: 20px 0;
 
         }
         
+        .search-nav{
+            width: 100%;
+            height: 50px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            /* position: static; */
+        }
+        .search-body{
+            width: 100%;
+            display: flex;
+            /* justify-content: center; */
+            /* align-items: center; */
+            /* position: relative; */
+            padding: 0 20px;
+
+
+        }
+        .search-main{
+            display: flex;
+            align-items: center;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        .filters{
+            width: 100%;
+            display: flex;
+            /* justify-content: space-between; */
+            /* align-items: center; */
+            padding: 0 20px;
+            height: 50vh;
+            flex-direction: column;
+            /* position: static; */
+        }
+        .filters-nav{
+            width: 150px;
+            float: left;
+            display: flex;
+            /* height: 50vh; */
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;
+        }
+        .filters-nav img{
+            width: 100%;
+            height: 20px;
+        }
+        .filters-button span{
+            font-size: 16px;
+            color: rgb(21, 21, 61);
+            margin-left: 10px;
+        }
+        .filters-button *{
+            cursor: pointer; 
+        }
+        .filters-button input{
+            font-size: 16px;
+            color: rgb(21, 21, 61);
+        }
+        .filters-button input[type="checkbox"]{
+            width: 14px;
+            height: 14px;
+            border: 1px solid rgb(21, 21, 61);
+            border-radius: 10px;
+        }
+        .cross-icon-search{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            /* right: 39%;
+             */
+            font-size: 30px;
+            border: none;
+            background-color: transparent;
+            opacity: 1;
+            /* position: absolute; */
+            
+        }
+
         h1{
             font-size: 30px;
             font-weight: bold;
@@ -254,11 +339,32 @@
     
     <main>  
         <div class="popUpSearch" >
-            <h1>Search Result</h1>
-            <div id="popUpSearch">
-                <div class="notFound">
-                    <h1>Not Found</h1>
+            <div class="search-nav">
+                <h1>Search Result </h1>
+                <button class="cross-icon-search">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="search-body">
+                <div class="search-sidebar">
+                    <div class="filters">
+                        <div class="filters-nav">
+                            <h5>Filters</h5>
+                            <img src="./img/unfilled-filter.svg" alt="">
+                        </div>
+                        <div class="filters-button">
+                            <h6>Price :</h6>
+                            <span><input type="radio" name="price" id="priceLowToHigh"> <span id="lToHBtn">Low To High</span></span><br>
+                            <span><input type="radio" name="price" id="priceHighToLow"> <span id="hToLBTn">High To Low</span></span>
+                        </div>
+
+                    </div>
                 </div>
+                <div id="popUpSearch" class="search-main">
+                    <div class="notFound">
+                        <h1>Not Found</h1>
+                    </div>
+                </div>  
             </div>
             
         </div>
@@ -275,8 +381,41 @@
         const card1 = document.querySelectorAll('.card');
         const popUpSearch = document.getElementById('popUpSearch');
         const popUpSearchDiv = document.querySelector('.popUpSearch');
+        const crossIconSearch = document.querySelector('.cross-icon-search');
+        const priceLowToHigh = document.getElementById('priceLowToHigh');
+        const priceHighToLow = document.getElementById('priceHighToLow');
+        const lToHBtn = document.getElementById('lToHBtn');
+        const hToLBTn = document.getElementById('hToLBTn');
 
-        popUpSearchDiv.style.display = 'none';
+        lToHBtn.addEventListener('click', () => {
+            if(priceLowToHigh.checked){
+                priceLowToHigh.checked = false;
+            }else{
+                priceLowToHigh.checked = true;
+            }
+        } );
+
+        priceLowToHigh.addEventListener('click', () => {
+            if(priceLowToHigh.checked){
+                // arrange the cards present in the popUpSearchDiv in ascending order of price
+                
+                
+
+            }else{
+                lToHBtn.style.color = '#000';
+                hToLBTn.style.color = 'rgb(21, 21, 61)';
+            }
+        } );
+
+        hToLBTn.addEventListener('click', () => {
+            if(priceHighToLow.checked){
+                priceHighToLow.checked = false;
+            }else{
+                priceHighToLow.checked = true;
+            }
+        } );
+
+        // popUpSearchDiv.style.display = 'none';
         notFound.style.display = 'none';
         crossIcon.style.display = "none";
         searchBar.addEventListener('keyup', function(e){
@@ -289,6 +428,10 @@
                 notFoundH1.style.display = 'none';
                 searchProduct();
             }
+        } );
+
+        crossIconSearch.addEventListener('click', function(){
+            popUpSearchDiv.style.display = 'none';
         } );
 
         searchIcon.addEventListener('click', function(){
@@ -319,6 +462,7 @@
             else{
                 console.log("search text is not empty");
 
+                popUpSearch.innerHTML = '';     
                 items.forEach((item,index) => {
                     console.log("Inside forEach");
                     notFound.style.display = 'none';
@@ -326,9 +470,8 @@
                     console.log("item name is " + item.name);
                     console.log("search text is " + searchText);
                     if(item.name.toLowerCase() === searchText.toLowerCase()){
-                        notFound.style.display = 'none';
-                        notFoundH1.style.display = 'none';
-                        popUpSearch.innerHTML = '';
+                        // notFound.style.display = 'none';
+                        // notFoundH1.style.display = 'none';
                         console.log("found");
                         displaySearch(item, index);
                     }
@@ -350,7 +493,7 @@
             
             // popUpSearch.innerHTML = '';
                     let card = document.createElement('div');
-                    card.classList.add('card');
+                    card.classList.add('card1');
                     card.innerHTML = `
                             <img src="${item.imageUrl}">
                             <div class="card-body">
