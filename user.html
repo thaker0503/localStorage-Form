@@ -4,13 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/fontawesome.css"/>
     <title>User Page</title>
     <style>
+        @import url('http://fonts.cdnfonts.com/css/poppins');
+
         *{
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+
         }
         body{
             background-color: #f5f5f5;
@@ -50,6 +56,61 @@
         .navbar-cart a i{
             font-size: 20px;
             color: rgb(21, 21, 61);
+        }
+        .navbar-cart a span{
+            font-size: 20px;
+            color: rgb(21, 21, 61);
+            margin-left: 10px;
+        }
+        .search-bar{
+            width: 100%;
+            height: 50px;
+            /* background-color: #fff; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+            margin-top: 20px;
+            position: static;
+        }
+        .search-bar input{
+            width: 50%;
+            height: 30px;
+            outline: none;
+            border: none;
+            padding: 0 20px;
+            border-radius: 20px;
+            box-shadow: 0px 5px 10px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .search-icon{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            right: 27%;
+            border: none;
+            background-color: transparent;
+            opacity: .5;
+            position: absolute;
+        }
+        .filter-icon{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            right: 50%;
+            border: none;
+            background-color: transparent;
+            opacity: 1;
+            position: absolute;
+            z-index: 1;
         }
         main{
             display: flex;
@@ -135,14 +196,40 @@
             <a href="./user.html">User</a>
         </div>
         <div class="navbar-cart">
-            <a href="./cart.html" ><i class="fa-solid fa-cart-shopping" id="cart" > Cart (0)</i></a>
+            <a href="./cart.html"><i class="fa-solid fa-cart-shopping"  ></i><span id="cart">Cart 0</span></a>
         </div>
+    </div>
+    <div class="search-bar" id="searchBar">
+        <input type="text" placeholder="Search..."/>
+        <button class="search-icon">
+            <i class="fa fa-magnifying-glass"></i>
+        </button>
+        <button class="filter-icon">
+            <i class="fa fa-bars-filter"></i>
+            
+        </button>
     </div>
     <main>
         
     </main>
 
     <script>
+
+        const searchBar = document.getElementById('searchBar');
+        const searchIcon = document.querySelector('.search-icon');
+        searchBar.addEventListener('keyup', function(e){
+            searchIcon.style.opacity = '1';
+            if(e.keyCode == 13){
+                window.location.href = './user.html?q=' + searchBar.value;
+            }
+        } );
+        searchIcon.addEventListener('click', function(){
+            window.location.href = './user.html?q=' + searchBar.value;
+        } );
+
+
+
+
         cartCount();
         function addToCart(id){
             const items = JSON.parse(localStorage.getItem("items"));
@@ -164,7 +251,7 @@
             items.forEach(item => {
                 let status = item.addToCart;
                 if (status == true) {
-                    document.querySelector("#cart").innerHTML = "Cart (" + ++count + ")";
+                    document.getElementById("cart").innerText = "Cart " + ++count ;
                     
                 }
             })
