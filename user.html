@@ -70,7 +70,7 @@
             justify-content: center;
             align-items: center;
             padding: 0 20px;
-            margin-top: 20px;
+            /* margin-top: 20px; */
             position: static;
         }
         .search-bar input{
@@ -78,9 +78,10 @@
             height: 30px;
             outline: none;
             border: none;
-            padding: 0 20px;
-            border-radius: 20px;
-            box-shadow: 0px 5px 10px 5px rgba(0,0,0,0.1);
+            padding: 0 5px;
+            border-bottom: 1px solid rgb(21, 21, 61);
+            /* border-radius: 20px; */
+            /* box-shadow: 0px 5px 10px 5px rgba(0,0,0,0.1); */
             position: relative;
         }
         .search-icon{
@@ -91,11 +92,11 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            right: 27%;
+            right: 40%;
             border: none;
             background-color: transparent;
             opacity: .5;
-            position: absolute;
+            /* position: absolute; */
         }
         .cross-icon{
             width: 20px;
@@ -105,7 +106,7 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            right: 29%;
+            right: 39%;
             border: none;
             background-color: transparent;
             opacity: 1;
@@ -184,8 +185,49 @@
             position: relative;
             --count: "0";
         }
-        
 
+        .notFound{
+            display: none;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: #2C2C2C;
+            text-align: center;
+            width: 100%;
+            height: 50vh;
+        }
+        .notFound h1{
+            display: none;
+            font-size: 30px;
+            font-weight: bold;
+            color: #2C2C2C;
+            text-align: center;
+        }
+        .popUpSearch{
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            /* align-items: center; */
+            flex-direction: column;
+            font-size: 30px;
+            font-weight: bold;
+            color: #2C2C2C;
+            /* text-align: center;   */
+            width: 70%;
+            top: 20%;
+            height: auto;
+            background-color: #fff;
+            padding: 20px 0;
+
+        }
+        
+        h1{
+            font-size: 30px;
+            font-weight: bold;
+            color: #2C2C2C;
+            text-align: center;
+        }
         
     </style>
 </head>
@@ -195,82 +237,122 @@
             <a href="./admin.html">Admin</a>
             <a href="./user.html">User</a>
         </div>
+        <div class="search-bar" >
+            <input type="text" placeholder="Search..." id="searchBar"> 
+            <button class="cross-icon">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <button class="search-icon">
+                <i class="fa fa-magnifying-glass"></i>
+            </button>
+            
+        </div>
         <div class="navbar-cart">
             <a href="./cart.html"><i class="fa-solid fa-cart-shopping"  ></i><span id="cart">Cart 0</span></a>
         </div>
     </div>
-    <div class="search-bar" >
-        <input type="text" placeholder="Search..." id="searchBar"/>
-        <button class="search-icon">
-            <i class="fa fa-magnifying-glass"></i>
-        </button>
-        <button class="cross-icon">
-            <i class="fa-solid fa-xmark"></i>
+    
+    <main>  
+        <div class="popUpSearch" >
+            <h1>Search Result</h1>
+            <div id="popUpSearch">
+                <div class="notFound">
+                    <h1>Not Found</h1>
+                </div>
+            </div>
             
-        </button>
-    </div>
-    <main>
+        </div>
         
     </main>
 
     <script>
 
         const searchBar = document.getElementById('searchBar');
-        // const searchText = document.getElementById('searchText');
         const searchIcon = document.querySelector('.search-icon');
         const crossIcon = document.querySelector('.cross-icon');
+        const notFound = document.querySelector('.notFound');
+        const notFoundH1 = document.querySelector('.notFound h1');
+        const card1 = document.querySelectorAll('.card');
+        const popUpSearch = document.getElementById('popUpSearch');
+        const popUpSearchDiv = document.querySelector('.popUpSearch');
+
+        popUpSearchDiv.style.display = 'none';
+        notFound.style.display = 'none';
         crossIcon.style.display = "none";
         searchBar.addEventListener('keyup', function(e){
-            
             crossIcon.style.display = "block";
             searchIcon.style.opacity = '1';
             if(e.keyCode == 13){
-                window.location.href = './user.html?search=' + searchBar.value;
-                var searchText = searchBar.value;
-                searchProduct(searchText);
+                // window.location.href = './user.html?search=' + searchBar.value;
+                popUpSearchDiv.style.display = 'flex';
+                notFound.style.display = 'none';
+                notFoundH1.style.display = 'none';
+                searchProduct();
             }
         } );
 
         searchIcon.addEventListener('click', function(){
-            window.location.href = './user.html?search=' + searchBar.value;
-            var searchText = searchBar.value;
-            searchProduct(searchText);
+            // window.location.href = './user.html?search=' + searchBar.value;
+            popUpSearchDiv.style.display = 'flex';
+            notFound.style.display = 'none';
+            notFoundH1.style.display = 'none';
+            searchProduct();
         } );
 
         crossIcon.addEventListener('click', function(){
             searchBar.value = '';
             crossIcon.style.display = "none";
             searchIcon.style.opacity = '0.5';
+
+            window.location.href = './user.html';
         } );
 
-        function searchProduct(searchText){
-            // const search = document.getElementById('searchBar').value;
+        function searchProduct(){
+            console.log("searching for " + searchBar.value);
             const items = JSON.parse(localStorage.getItem('items'));
-            // const searchItem = location.search.split('search=')[1];
-            items.forEach((item) => {
-                if(item.name === searchText){
-                    item.filter = true;
-                }
-                item.filter = false;
-            } );
-            localStorage.setItem('items', JSON.stringify(items));
-            window.location.href = './user.html?search=' + searchText;
-            displaySearch();
+            const searchText = searchBar.value;
+            console.log(searchText);
+            if(searchText == null || searchText == ''){
+                console.log("search text is empty");
+                window.location.href = './user.html';
+            }
+            else{
+                console.log("search text is not empty");
 
+                items.forEach((item,index) => {
+                    console.log("Inside forEach");
+                    notFound.style.display = 'none';
+                    notFoundH1.style.display = 'none';
+                    console.log("item name is " + item.name);
+                    console.log("search text is " + searchText);
+                    if(item.name.toLowerCase() === searchText.toLowerCase()){
+                        notFound.style.display = 'none';
+                        notFoundH1.style.display = 'none';
+                        popUpSearch.innerHTML = '';
+                        console.log("found");
+                        displaySearch(item, index);
+                    }
+                    else{
+                            console.log("Not found");
+                            
+                            notFound.style.display = "flex";
+                            notFoundH1.style.display = "flex";
+                            console.log(item.name);
+                            console.log("search text is " + searchText);
+                        
+                    }
+                });
+            }
         }
 
-        function displaySearch(){
-            const items = JSON.parse(localStorage.getItem('items'));
-            const main = document.querySelector('main');
-            main.innerHTML = '';
-            const matchedItems = items.filter(item => item.filter === true);
-            console.log(matchedItems);
-            matchedItems.forEach((item,index) => {
-                
+        function displaySearch(item, index){
+            console.log("displaying " + item.name);
+            
+            // popUpSearch.innerHTML = '';
                     let card = document.createElement('div');
                     card.classList.add('card');
                     card.innerHTML = `
-                            <img src="${item.imageUrl}" alt="">
+                            <img src="${item.imageUrl}">
                             <div class="card-body">
                                 <p class="card-title">${item.name}</p>
                                 <p class="card-price">₹${item.price}</p>
@@ -278,13 +360,35 @@
                                 <button class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
                             </div>
                         `;
-                    document.querySelector('main').appendChild(card);
-
-                } );
-            
-            localStorage.setItem('items', JSON.stringify(items));
-            // window.location.href = './user.html?search=' + searchItem;
+                        popUpSearch.appendChild(card);
         }
+
+        // function displaySearch(){
+        //     const items = JSON.parse(localStorage.getItem('items'));
+        //     const main = document.querySelector('main');
+        //     main.innerHTML = '';
+        //     const matchedItems = items.filter(item => item.filter === true);
+        //     console.log(matchedItems);
+        //     matchedItems.forEach((item,index) => {
+                
+                    // let card = document.createElement('div');
+                    // card.classList.add('card');
+                    // card.innerHTML = `
+                    //         <img src="${item.imageUrl}" alt="">
+                    //         <div class="card-body">
+                    //             <p class="card-title">${item.name}</p>
+                    //             <p class="card-price">₹${item.price}</p>
+                    //             <p class="card-text">${item.description}</p>
+                    //             <button class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
+                    //         </div>
+                    //     `;
+        //             document.querySelector('main').appendChild(card);
+
+        //         } );
+            
+        //     localStorage.setItem('items', JSON.stringify(items));
+        //     // window.location.href = './user.html?search=' + searchItem;
+        // }
         // searchProduct();
 
 
