@@ -7,41 +7,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom Validation</title>
     <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+           background-color: rgb(6, 148, 183); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            
+        }
+        main{
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            background-color: #fff;
+            height: 50vh;
+            border-radius: 50px;
+            box-shadow: 4px 4px 30px rgba(255, 255, 255, 0.735);
+            position: relative;
+        }
+        form{
+            width: 50%;
+            height: 40vh;
+        }
+        form h1{
+            font-size: 40px;
+            color: rgba(0, 0, 0, .8);
+            margin-bottom: 20px;
+            height: max-content;
+        }
+        .form-elements{
+            height: 60%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
         input{
             font-size: 20px;
+            border: none;
+            outline: none;
+            width: 300px;
+            background-color: transparent;
+            color: rgba(0, 0, 0, .9);
+            border-bottom: 2px solid rgba(0, 0, 0, .8);
         }
+        input::placeholder{
+            color: rgba(0, 0, 0, .5);
+        }
+        
         .error{
             font-size: 16px;
-            color: red;
-        }
-        .error::before{
-            content: "\26A0";
-            position: absolute;
-            left: 18.5%;
-            font-size: 25px;
-            top: 12%;
+            color: rgba(255, 0, 0, .8);
+            width: 300px;
+            text-align: center;
         }
         .success{
             color: green;
-        }
-        .success::before{
-            content: "\2713";
-            position: absolute;
-            left: 18.5%;
-            font-size: 25px;
-            top: 12%;   
+            font-size: 16px;
+            position: relative;
+            text-align: center;
+
         }
         .errorEmail{
-            outline: 2px solid red;
-            border: 1px solid red;
+            /* outline: 2px solid red; */
+            border-bottom: 2px solid rgba(255, 0, 0, .5);
+            
         }
         .errorEmail:focus{
-            outline: 2px solid red;
-            border: 1px solid red;
+            border-bottom: 2px solid rgba(255, 0, 0, .9);
+        }
+        .errorEmail:focus{
+            /* outline: 2px solid rgba(255, 0, 0, .5); */
+            border-bottom: 2px solid rgba(255, 0, 0, .5);
         }
         .successEmail{
-            outline: 2px solid green;
+            border-bottom: 2px solid green;
         }
+
+            
     </style>
 </head>
 
@@ -50,7 +103,9 @@
         <form id="regForm">
             <h1>Registration Form</h1>
             <div class="form-elements">
-                <input type="text" name="email" class="errorEmail" id="email" placeholder="Enter Email Id" /> <br /> <br /><span id="error" class="error">* Invalid Email</span> 
+                <input type="text" name="email" class="" id="email" placeholder="Enter Email Id" /> <br>
+                <span id="error" class="error"></span> 
+                
                 
             </div>
         </form>
