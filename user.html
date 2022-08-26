@@ -323,12 +323,12 @@
             <a href="./user.html">User</a>
         </div>
         <div class="search-bar" >
+            <button class="search-icon">
+                <i class="fa fa-magnifying-glass"></i>
+            </button>
             <input type="text" placeholder="Search..." id="searchBar"> 
             <button class="cross-icon">
                 <i class="fa-solid fa-xmark"></i>
-            </button>
-            <button class="search-icon">
-                <i class="fa fa-magnifying-glass"></i>
             </button>
             
         </div>
@@ -387,35 +387,79 @@
         const lToHBtn = document.getElementById('lToHBtn');
         const hToLBTn = document.getElementById('hToLBTn');
 
-        lToHBtn.addEventListener('click', () => {
-            if(priceLowToHigh.checked){
-                priceLowToHigh.checked = false;
-            }else{
-                priceLowToHigh.checked = true;
-            }
-        } );
 
         priceLowToHigh.addEventListener('click', () => {
+            console.log('low to high');
             if(priceLowToHigh.checked){
-                // arrange the cards present in the popUpSearchDiv in ascending order of price
-                
-                
-
+                console.log('checked');
+                const items = JSON.parse(localStorage.getItem('items'));
+                items.forEach(item => {
+                    // console.log(item);
+                    if(item.filter == true){
+                        console.log(item.price);
+                        matchedItems.sort((a, b) => {
+                            return a.price - b.price;
+                        } );
+                        console.log(matchedItems);
+                        popUpSearch.innerHTML = '';
+                        matchedItems.forEach((item,index) => {
+                            let card = document.createElement('div');
+                            card.classList.add('card1');
+                            card.innerHTML = `
+                            <img src="${item.imageUrl}">
+                            <div class="card-body">
+                                <p class="card-title">${item.name}</p>
+                                <p class="card-price filter-price" id="filterPrice${index}">₹${item.price}</p>
+                                <p class="card-text">${item.description}</p>
+                                <button class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
+                            </div>
+                        `;
+                            popUpSearch.appendChild(card);
+                        })
+                    }
+                })
             }else{
+                console.log('unchecked');
                 lToHBtn.style.color = '#000';
                 hToLBTn.style.color = 'rgb(21, 21, 61)';
             }
         } );
 
-        hToLBTn.addEventListener('click', () => {
+        priceHighToLow.addEventListener('click', () => {
             if(priceHighToLow.checked){
-                priceHighToLow.checked = false;
+                 console.log('checked');
+                const items = JSON.parse(localStorage.getItem('items'));
+                items.forEach(item => {
+                    // console.log(item);
+                    if (item.filter == true) {
+                        console.log(item.price);
+                        matchedItems.sort((a, b) => {
+                            return b.price - a.price;
+                        });
+                        console.log(matchedItems);
+                        popUpSearch.innerHTML = '';
+                        matchedItems.forEach((item, index) => {
+                            let card = document.createElement('div');
+                            card.classList.add('card1');
+                            card.innerHTML = `
+                            <img src="${item.imageUrl}">
+                            <div class="card-body">
+                                <p class="card-title">${item.name}</p>
+                                <p class="card-price filter-price" id="filterPrice${index}">₹${item.price}</p>
+                                <p class="card-text">${item.description}</p>
+                                <button class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
+                            </div>
+                        `;
+                            popUpSearch.appendChild(card);
+                        })
+                    }
+                })
             }else{
                 priceHighToLow.checked = true;
             }
         } );
 
-        // popUpSearchDiv.style.display = 'none';
+        popUpSearchDiv.style.display = 'none';
         notFound.style.display = 'none';
         crossIcon.style.display = "none";
         searchBar.addEventListener('keyup', function(e){
@@ -423,6 +467,7 @@
             searchIcon.style.opacity = '1';
             if(e.keyCode == 13){
                 // window.location.href = './user.html?search=' + searchBar.value;
+                matchedItems.splice(0, matchedItems.length);
                 popUpSearchDiv.style.display = 'flex';
                 notFound.style.display = 'none';
                 notFoundH1.style.display = 'none';
@@ -436,6 +481,7 @@
 
         searchIcon.addEventListener('click', function(){
             // window.location.href = './user.html?search=' + searchBar.value;
+            matchedItems.splice(0, matchedItems.length);
             popUpSearchDiv.style.display = 'flex';
             notFound.style.display = 'none';
             notFoundH1.style.display = 'none';
@@ -447,49 +493,54 @@
             crossIcon.style.display = "none";
             searchIcon.style.opacity = '0.5';
 
-            window.location.href = './user.html';
+            // window.location.href = './user.html';
         } );
 
+        const matchedItems =[] ;
+
         function searchProduct(){
-            console.log("searching for " + searchBar.value);
+            // console.log("searching for " + searchBar.value);
             const items = JSON.parse(localStorage.getItem('items'));
             const searchText = searchBar.value;
-            console.log(searchText);
+            // console.log(searchText);
             if(searchText == null || searchText == ''){
-                console.log("search text is empty");
+                // console.log("search text is empty");
                 window.location.href = './user.html';
             }
             else{
-                console.log("search text is not empty");
-
+                // console.log("search text is not empty");
                 popUpSearch.innerHTML = '';     
                 items.forEach((item,index) => {
-                    console.log("Inside forEach");
+                    // console.log("Inside forEach");
                     notFound.style.display = 'none';
                     notFoundH1.style.display = 'none';
-                    console.log("item name is " + item.name);
-                    console.log("search text is " + searchText);
-                    if(item.name.toLowerCase() === searchText.toLowerCase()){
+                    // console.log("item name is " + item.name);
+                    // console.log("search text is " + searchText);
+                    if(item.name.toLowerCase().includes(searchText.toLowerCase())   ){
                         // notFound.style.display = 'none';
                         // notFoundH1.style.display = 'none';
-                        console.log("found");
-                        displaySearch(item, index);
-                    }
-                    else{
-                            console.log("Not found");
-                            
-                            notFound.style.display = "flex";
-                            notFoundH1.style.display = "flex";
-                            console.log(item.name);
-                            console.log("search text is " + searchText);
-                        
+                        // console.log("found");
+                        item.filter = true;
+                        // displaySearch(item, index);
+                        localStorage.setItem('items', JSON.stringify(items));
+                        matchedItems.push(item);
                     }
                 });
+                if(matchedItems.length == 0){
+                    notFound.style.display = 'flex';
+                    notFoundH1.style.display = 'block';
+                }
+                else{
+                    matchedItems.forEach((item,index) => {
+                        console.log(item);
+                        displaySearch(item, index);
+                    } );
+                }
             }
         }
 
         function displaySearch(item, index){
-            console.log("displaying " + item.name);
+            // console.log("displaying " + item.name);
             
             // popUpSearch.innerHTML = '';
                     let card = document.createElement('div');
@@ -498,7 +549,7 @@
                             <img src="${item.imageUrl}">
                             <div class="card-body">
                                 <p class="card-title">${item.name}</p>
-                                <p class="card-price">₹${item.price}</p>
+                                <p class="card-price filter-price" id="filterPrice${index}">₹${item.price}</p>
                                 <p class="card-text">${item.description}</p>
                                 <button class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
                             </div>
@@ -511,7 +562,7 @@
         //     const main = document.querySelector('main');
         //     main.innerHTML = '';
         //     const matchedItems = items.filter(item => item.filter === true);
-        //     console.log(matchedItems);
+            // console.log(matchedItems);
         //     matchedItems.forEach((item,index) => {
                 
                     // let card = document.createElement('div');
@@ -543,7 +594,7 @@
                     items[index].addToCart = true;
                     items[index].quantity = 1;
                     localStorage.setItem("items", JSON.stringify(items));
-                    console.log(items[index].addToCart);
+                    // console.log(items[index].addToCart);
                     window.location.reload();
                 }
             });
