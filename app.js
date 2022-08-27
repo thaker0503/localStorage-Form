@@ -3,7 +3,8 @@ const signUp = (e) => {
         name = userRegisterForm['name'].value,
         email = userRegisterForm['email'].value,
         pwd = userRegisterForm['password'].value,
-        isLoggedIn = false;
+        isLoggedIn = false,
+        isAdmin = false;
 
     let formData = JSON.parse(localStorage.getItem('formData')) || [];
 
@@ -11,7 +12,7 @@ const signUp = (e) => {
 
     if (validateEmail(email) && validatePassword(pwd) && validateName(name)) {
         if (!exist) {
-            formData.push({ name, email, pwd, isLoggedIn });
+            formData.push({ name, email, pwd, isLoggedIn,isAdmin });
             localStorage.setItem('formData', JSON.stringify(formData));
             alert("Registered Successfully\nPlease Login");
             location.href = "./login.html";
@@ -58,7 +59,7 @@ function signIn(e) {
         if (formData[index].email == email && formData[index].pwd == pwd) {
             formData[index].isLoggedIn = true;
             localStorage.setItem('formData', JSON.stringify(formData));
-            location.replace("./dashboard.html?" + index);
+            location.href = "./user.html?" + index;
         }
         else {
             const alert = document.getElementById("alert");
@@ -84,8 +85,7 @@ function displayUserDetails(index) {
     let userDetails = formData[index];
     // check if user is logged in
     if (userDetails.isLoggedIn) {
-        document.getElementById('userName').innerText = "Welcome " + userDetails.name;
-        document.getElementById('userEmail').innerHTML = "Email: " + userDetails.email;
+        location.href = "./user.html?" + index;
     }
     else {
         alert("Please Sign In");

@@ -46,6 +46,12 @@
             align-items: center;
             justify-content: space-around;
         }
+        .navbar-links img{
+            margin-top: 10px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
         .navbar-cart{
             width: 50%;
             
@@ -331,14 +337,20 @@
             color: #2C2C2C;
             text-align: center;
         }
+        .logOut{
+            font-size: 20px;
+            font-weight: bold;
+            color: #2C2C2C;
+            text-align: center;
+            width: 20%;
+        }
         
     </style>
 </head>
 <body>
     <div class="navbar">
         <div class="navbar-links">
-            <a href="./admin.html">Admin</a>
-            <a href="./user.html">User</a>
+            
         </div>
         <div class="search-bar" >
             <button class="search-icon">
@@ -352,6 +364,9 @@
         </div>
         <div class="navbar-cart">
             <a href="./cart.html"><i class="fa-solid fa-cart-shopping"  ></i><span id="cart">Cart 0</span></a>
+        </div>
+        <div class="logOut">
+            <a onclick="logout(event)">Log Out</a>
         </div>
     </div>
     
@@ -389,6 +404,15 @@
 
     <script>
 
+        function logout(e) {
+            let formData = JSON.parse(localStorage.getItem('formData'));
+            let index = location.href.split('?')[1];
+            formData[index].isLoggedIn = false;
+            localStorage.setItem('formData', JSON.stringify(formData));
+            location.href = "./login.html";
+            e.preventDefault();
+        }
+
         const searchBar = document.getElementById('searchBar');
         const searchIcon = document.querySelector('.search-icon');
         const crossIcon = document.querySelector('.cross-icon');
@@ -405,8 +429,32 @@
         const notFoundDiv = document.createElement('div');
         const searchSidebar = document.querySelector('.search-sidebar');
         const items = JSON.parse(localStorage.getItem('items'));
+        const navbarLinks = document.querySelector('.navbar-links');
+        const users = JSON.parse(localStorage.getItem('formData'));
+        const id = location.search.split('?')[1];   
+
+        if(users[id].isLoggedIn){
+            if(users[id].isAdmin) {
+                navbarLinks.innerHTML = `
+                <a onclick="adminLink()">Admin</aid=>
+                <a onclick="userLink()">User</a>
+                `;
+                
+        }
+        else {
+            navbarLinks.innerHTML = `<img src="./img/1.png">`;
+        }
+
+        function adminLink() {
+                    window.location.replace('./admin.html?'+id);
+        };
+        function userLink(){
+                    window.location.replace('./user.html?'+id);
+        };
 
 
+           
+        
         items.forEach(item => item.filter = false);
         localStorage.setItem('items', JSON.stringify(items));
 
@@ -675,6 +723,17 @@
             } 
         }  
         getItems();
+        }else{
+            const main = document.querySelector('body');
+            main.innerHTML = `
+                <div class="notFound">
+                    <h1>Please Login</h1>
+                </div>
+            `;
+            setTimeout(() => {
+                window.location.href = './login.html';
+            }, 2000);
+        }
 
 
     </script>

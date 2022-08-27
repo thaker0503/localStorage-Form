@@ -88,9 +88,52 @@
             padding: 0 50px;
         }
 
-        table {
+        .tableDesign{
             border: 2px solid #000;
             width: 100%;
+            background-color: #2C2C2C;
+            color: #fff;
+        }
+        .tableDesign th{
+            background-color: #2C2C2C;
+            color: #fff;
+        }   
+        .tableDesign tr{
+            /* border: 2px solid #000; */
+            background-color: #fff;
+            color: #000;
+        }
+        .tableDesign tr:nth-child(odd){
+            /* border: 2px solid #000; */
+            background-color: #d7d7d7;
+            color: #000;
+        }
+        .tableDesign tr .status{
+            /* border: 2px solid #000; */
+            /* background-color: #2C2C2C; */
+            color: #000;
+            text-decoration: none;
+            width: max-content;
+            position: relative;
+        }
+
+        .tableDesign tr .status::before{
+            content: attr(data-tooltip);
+            font-size: 16px;
+            width: max-content;
+            color: rgba(218, 218, 218, 0.8);
+            background-color: rgb(83, 77, 77);
+            position: absolute;
+            top: -30px;
+            left: -50px;
+            padding: 5px;
+            border-radius: 5px;
+            visibility: hidden;
+        }
+
+        .tableDesign tr a:hover::before{
+            visibility: visible;
+            animation: tool-tip 0.3s ease-in-out;
         }
 
         tr {
@@ -98,7 +141,7 @@
         }
 
         .popUpAdd,
-        .popUpEdit {
+        .popUpEdit,.popUpAdmin {
             width: 50%;
             height: 500px;
             text-align: center;
@@ -117,14 +160,14 @@
         }
 
         .popUpAdd h1,
-        .popUpEdit h1 {
+        .popUpEdit h1,.popUpAdmin h1 {
             font-size: 30px;
             font-weight: bold;
             margin-bottom: 20px;
         }
 
         .popUpAdd h1 button,
-        .popUpEdit h1 button {
+        .popUpEdit h1 button,.popUpAdmin h1 button {
             font-size: 30px;
             width: max-content;
             color: #2C2C2C;
@@ -136,7 +179,8 @@
         }
 
         #closeBtn:hover,
-        #closeEditBtn:hover {
+        #closeEditBtn:hover,
+        #closeAdminBtn:hover {
             color: #000;
             background: #fff;
         }
@@ -144,7 +188,9 @@
         .popUpAdd input,
         .popUpAdd textarea,
         .popUpEdit input,
-        .popUpEdit textarea {
+        .popUpEdit textarea,
+        .popUpAdmin input,
+        .popUpAdmin textarea {
             width: 100%;
             height: 40px;
             border: 1px solid #000;
@@ -155,7 +201,8 @@
         }
 
         .popUpAdd button,
-        .popUpEdit button {
+        .popUpEdit button,
+        .popUpAdmin button {
             width: 100%;
             height: 40px;
             border: 1px solid #000;
@@ -166,7 +213,8 @@
         }
 
         .popUpAdd button:hover,
-        .popUpEdit button:hover {
+        .popUpEdit button:hover,
+        .popUpAdmin button:hover {
             background-color: #000;
             color: #fff;
         }
@@ -216,25 +264,73 @@
             text-decoration: none;
             background: transparent;
         }
+
+        .logOut{
+            font-size: 20px;
+            font-weight: bold;
+            color: #2C2C2C;
+            text-align: center;
+            width: 20%;
+        }
+        .header{
+            height: 50px;
+            background-color: #2C2C2C;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 5px;
+            padding: 0 20px;
+        }
+        #addNewAdmin,#addNewItem{
+            font-size: 20px;
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+            padding: 8px 20px;
+            background-color: #2C2C2C;
+            border: 0;
+        }
+        #addNewAdmin:hover,#addNewItem:hover{
+            background-color: #fff;
+            color: #2C2C2C;
+            transition: all .3s ease;
+        }
+
+        @keyframes tool-tip {
+            0%{ transform: scale(0); }
+            50%{ transform: scale(1.1); }
+            100%{ transform: scale(1); }
+        }
     </style>
 </head>
 
 <body>
     <div class="navbar">
         <div class="navbar-links">
-            <a href="./admin.html">Admin</a>
-            <a href="./user.html">User</a>
+            <!-- <a href="./admin.html">Admin</a>
+            <a href="./user.html">User</a> -->
         </div>
         <!-- <div class="navbar-cart">
             <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
         </div> -->
+        <div class="logOut">
+            <a href="./login.html">Log Out</a>
+        </div>
     </div>
-    <div class="addNewItem">
-        <button href="#" id="addNewItem" onclick="addNewItem(event)">+ Add New Item</button>
+    <div class="header">
+        <div>
+            <button id="addNewAdmin" onclick="addNewAdmin(event)">Add New Admin</button>
+        </div>
+        <div>
+            <button id="addNewItem" onclick="addNewItem(event)">Add New Item</button>
+        </div>
     </div>
     <main>
 
-        <table border>
+        
+
+        <table class="tableDesign">
             <tr>
                 <th>Name</th>
                 <th>Type</th>
@@ -244,6 +340,7 @@
                 <th>Delete</th>
             </tr>
         </table>
+
         <div class="popUpAdd" id="popUpAdd">
             <h1>Add New Item <button class="fa-solid fa-xmark" id="closeBtn" onclick="closeBtn(e)"></button></h1>
 
@@ -258,7 +355,7 @@
             </form>
         </div>
         <div class="popUpEdit" id="popUpEdit">
-            <h1>Edit Item <button class="fa-solid fa-xmark" id="closeEditBtn" onclick="closeBtn(e)"></button></h1>
+            <h1>Edit Item <button class="fa-solid fa-xmark" id="closeEditBtn" onclick="closeEditBtn(e)"></button></h1>
 
             <form id="editItemForm" class="editItemForm">
                 <input type="text" name="name" placeholder="Name" />
@@ -270,8 +367,37 @@
                     Item</button>
             </form>
         </div>
+        <div class="popUpAdmin" id="popUpAdmin">
+            <h1>Add New Admin <button class="fa-solid fa-xmark" id="closeAdminBtn" onclick="closeAdminBtn(e)"></button></h1>
+
+            <form id="addAdminForm" class="addAdminForm">
+                <input type="text" name="name" placeholder="Name" />
+                <input type="text" name="email" placeholder="Email" />
+                <input type="text" name="password" placeholder="Password" />
+                <button type="submit" name="addAdmin" id="addAdmin" value="Add Admin" onclick="">Add
+                    Admin</button>
+            </form>
+        </div>
     </main>
     <script>
+        const users = JSON.parse(localStorage.getItem('formData'));
+        const id = location.search.split('?')[1];
+        const navbarLinks = document.querySelector('.navbar-links');
+        
+        if(users[id].isAdmin) {
+                navbarLinks.innerHTML = `
+                <a  onclick="adminLink()">Admin</a>
+                <a  onclick="userLink()">User</a>
+                `;
+        }
+
+        function adminLink() {
+                    window.location.replace('./admin.html?'+id);
+        };
+        function userLink(){
+                    window.location.replace('./user.html?'+id);
+        };
+
         const closeBtn = document.getElementById('closeBtn');
         closeBtn.addEventListener('click', function (e) {
             e.preventDefault();
@@ -284,9 +410,22 @@
             document.getElementById('popUpEdit').style.display = 'none';
         })
 
+
+        const closeAdminBtn = document.getElementById('closeAdminBtn');
+        closeEditBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('popUpAdmin').style.display = 'none';
+        })
+
         function addNewItem(e) {
             var popUpAdd = document.getElementById("popUpAdd");
             popUpAdd.style.display = "flex";
+            e.preventDefault();
+        }
+
+        function addNewAdmin(e) {
+            var popUpAdmin = document.getElementById("popUpAdmin");
+            popUpAdmin.style.display = "flex";
             e.preventDefault();
         }
 
@@ -381,7 +520,18 @@
 
         function getItems() {
             const data = JSON.parse(localStorage.getItem("items"));
-            data.forEach(function (item, index) {
+            if (data === null || data.length === 0) {
+                const tableDesign = document.querySelector(".tableDesign");
+                tableDesign.style.display = "none";
+                let noData = document.createElement("div");
+                noData.innerHTML = `
+                    <div class="no-items" id="noItems">
+                    <h1>No Items Found... <br> Add new items</h1>
+                    </div>
+                    `;
+                document.querySelector("main").appendChild(noData);
+            } else {
+                data.forEach(function (item, index) {
                 const table = document.getElementsByTagName("table")[0];
                 const row = table.insertRow();
                 const name = row.insertCell(0);
@@ -394,9 +544,10 @@
                 type.innerHTML = item.type;
                 price.innerHTML = item.price;
                 edit.innerHTML = `<a href="#" id="editBtn" onclick="editItem(${index})"></a>`;
-                status.innerHTML = `<a href="#" id="statusBtn${index}" onclick="statusItem(${index})">${item.status}</a>`;
-                del.innerHTML = `<a href="#" id="deleteBtn" onclick="deleteItem(${index})"></a>`;
+                status.innerHTML = `<a href="#" id="statusBtn${index}" data-tooltip="Click to change status" class="status" onclick="statusItem(${index})">${item.status}</a>`;
+                del.innerHTML = `<a href="#" id="deleteBtn" data-tooltip="Delete this item" onclick="deleteItem(${index})"></a>`;
             })
+            }
         }
         getItems();
 
