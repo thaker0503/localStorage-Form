@@ -113,7 +113,16 @@
             position: absolute;
             
         }
-        main{
+        .parent {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: 1fr;
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        margin: 10px 0;
+        }
+
+        /* main{
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -121,14 +130,22 @@
             width: 100%;
             height: 100%;
             flex-wrap: wrap;
-        }
+        } */
         .card,.card1{
-            width: min-content;
+            /* width: min-content;
             height: auto;
             background-color: #fff;
-            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);*/
             padding: 20px;
-            margin: 20px;
+            margin: 10px 10px; 
+            background-color: #b1b1b1;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+            grid-column-gap: 0px;
+            grid-row-gap: 5px;
+            justify-items: center;
+
         }
         .card-body{
             margin-top: 10px;
@@ -187,7 +204,7 @@
         }
 
         .notFound{
-            display: none;
+            display: flex;
             justify-content: center;
             align-items: center;
             font-size: 30px;
@@ -198,7 +215,7 @@
             height: 50vh;
         }
         .notFound h1{
-            display: none;
+            display: flex;
             font-size: 30px;
             font-weight: bold;
             color: #2C2C2C;
@@ -245,6 +262,7 @@
         .search-main{
             display: flex;
             align-items: center;
+            justify-content: space-around;
             width: 100%;
             flex-wrap: wrap;
         }
@@ -337,7 +355,7 @@
         </div>
     </div>
     
-    <main>  
+    <main class="parent">  
         <div class="popUpSearch" >
             <div class="search-nav">
                 <h1>Search Result </h1>
@@ -361,9 +379,7 @@
                     </div>
                 </div>
                 <div id="popUpSearch" class="search-main">
-                    <div class="notFound">
-                        <h1>Not Found</h1>
-                    </div>
+                    
                 </div>  
             </div>
             
@@ -386,7 +402,13 @@
         const priceHighToLow = document.getElementById('priceHighToLow');
         const lToHBtn = document.getElementById('lToHBtn');
         const hToLBTn = document.getElementById('hToLBTn');
+        const notFoundDiv = document.createElement('div');
+        const searchSidebar = document.querySelector('.search-sidebar');
+        const items = JSON.parse(localStorage.getItem('items'));
 
+
+        items.forEach(item => item.filter = false);
+        localStorage.setItem('items', JSON.stringify(items));
 
         priceLowToHigh.addEventListener('click', () => {
             console.log('low to high');
@@ -460,7 +482,7 @@
         } );
 
         popUpSearchDiv.style.display = 'none';
-        notFound.style.display = 'none';
+        // notFound.style.display = 'none';
         crossIcon.style.display = "none";
         searchBar.addEventListener('keyup', function(e){
             crossIcon.style.display = "block";
@@ -469,8 +491,8 @@
                 // window.location.href = './user.html?search=' + searchBar.value;
                 matchedItems.splice(0, matchedItems.length);
                 popUpSearchDiv.style.display = 'flex';
-                notFound.style.display = 'none';
-                notFoundH1.style.display = 'none';
+                // notFound.style.display = 'none';
+                // notFoundH1.style.display = 'none';
                 searchProduct();
             }
         } );
@@ -483,8 +505,8 @@
             // window.location.href = './user.html?search=' + searchBar.value;
             matchedItems.splice(0, matchedItems.length);
             popUpSearchDiv.style.display = 'flex';
-            notFound.style.display = 'none';
-            notFoundH1.style.display = 'none';
+            // notFound.style.display = 'none';
+            // notFoundH1.style.display = 'none';
             searchProduct();
         } );
 
@@ -512,8 +534,8 @@
                 popUpSearch.innerHTML = '';     
                 items.forEach((item,index) => {
                     // console.log("Inside forEach");
-                    notFound.style.display = 'none';
-                    notFoundH1.style.display = 'none';
+                    // notFound.style.display = 'none';
+                    // notFoundH1.style.display = 'none';
                     // console.log("item name is " + item.name);
                     // console.log("search text is " + searchText);
                     if(item.name.toLowerCase().includes(searchText.toLowerCase())   ){
@@ -527,10 +549,18 @@
                     }
                 });
                 if(matchedItems.length == 0){
-                    notFound.style.display = 'flex';
-                    notFoundH1.style.display = 'block';
+                    // notFound.style.display = 'block';
+                    searchSidebar.style.display = 'none';
+                    notFoundDiv.innerHTML = `
+                        <div class="notFound">
+                            <h1>Not Found</h1>
+                        </div>
+                    `;
+                    popUpSearch.appendChild(notFoundDiv);
+
                 }
                 else{
+                    searchSidebar.style.display = 'block';
                     matchedItems.forEach((item,index) => {
                         console.log(item);
                         displaySearch(item, index);
@@ -625,6 +655,7 @@
                         if(item.status == 'active'){
                             let card = document.createElement('div');
                             card.classList.add('card');
+                            card.classList.add(`div${index}`);
                             card.innerHTML = `
                             <img src="${item.imageUrl}" alt="">
                             <div class="card-body">
