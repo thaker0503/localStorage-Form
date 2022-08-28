@@ -59,7 +59,7 @@ function signIn(e) {
         if (formData[index].email == email && formData[index].pwd == pwd) {
             formData[index].isLoggedIn = true;
             localStorage.setItem('formData', JSON.stringify(formData));
-            location.href = "./user.html?" + index;
+            location.href = "./index.html?" + index;
         }
         else {
             const alert = document.getElementById("alert");

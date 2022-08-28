@@ -366,12 +366,12 @@
             <a href="./cart.html"><i class="fa-solid fa-cart-shopping"  ></i><span id="cart">Cart 0</span></a>
         </div>
         <div class="logOut">
-            <a onclick="logout(event)">Log Out</a>
+            
         </div>
     </div>
     
     <main class="parent">  
-        <div class="popUpSearch" >
+        <div class="popUpSearch" id="popUpSearchDiv">
             <div class="search-nav">
                 <h1>Search Result </h1>
                 <button class="cross-icon-search">
@@ -409,7 +409,7 @@
             let index = location.href.split('?')[1];
             formData[index].isLoggedIn = false;
             localStorage.setItem('formData', JSON.stringify(formData));
-            location.href = "./login.html";
+            // location.href = "./login.html";
             e.preventDefault();
         }
 
@@ -424,7 +424,7 @@
         const notFoundH1 = document.querySelector('.notFound h1');
         const card1 = document.querySelectorAll('.card');
         const popUpSearch = document.getElementById('popUpSearch');
-        const popUpSearchDiv = document.querySelector('.popUpSearch');
+        const popUpSearchDiv = document.getElementById('popUpSearchDiv');
         const crossIconSearch = document.querySelector('.cross-icon-search');
         const priceLowToHigh = document.getElementById('priceLowToHigh');
         const priceHighToLow = document.getElementById('priceHighToLow');
@@ -436,19 +436,22 @@
         const navbarLinks = document.querySelector('.navbar-links');
         const users = JSON.parse(localStorage.getItem('formData'));
         const id = location.search.split('?')[1];   
+        const logOut = document.querySelector('.logOut');
 
-        // if(url.includes('?') && users[id].isLoggedIn){
+        if(url.includes('?') && users[id].isLoggedIn){
+            popUpSearchDiv.style.display = 'none !important';
             if(users[id].isAdmin) {
                 navbarLinks.innerHTML += `
                 <a onclick="adminLink()">Admin</a>
-                <a onclick="userLink()">User</a>
-                <a onclick="dashboard()">Dashboard</a>
-                `;
-                
+                <a onclick="userLink()">User</a>`;
+                // <a onclick="dashboard()">Dashboard</a>
+
+                logOut.innerHTML = `<a onclick="logout(event)">Logout</a>`;
         }
         else {
             navbarLinks.innerHTML = `<img src="./img/1.png">
             <a onclick="dashboard()">Dashboard</a>`;
+            logOut.innerHTML = `<a onclick="logout(event)">Logout</a>`;
         }
 
         function adminLink() {
@@ -461,8 +464,6 @@
                     window.location.replace('./dashboard.html?'+id);
         };
 
-
-           
         
         items.forEach(item => item.filter = false);
         localStorage.setItem('items', JSON.stringify(items));
@@ -548,6 +549,7 @@
                 // window.location.href = './user.html?search=' + searchBar.value;
                 matchedItems.splice(0, matchedItems.length);
                 popUpSearchDiv.style.display = 'flex';
+                // popUpSearch.innerHTML = '';
                 // notFound.style.display = 'none';
                 // notFoundH1.style.display = 'none';
                 searchProduct();
@@ -607,7 +609,7 @@
                 });
                 if(matchedItems.length == 0){
                     // notFound.style.display = 'block';
-                    searchSidebar.style.display = 'none';
+                    // searchSidebar.style.display = 'none';
                     notFoundDiv.innerHTML = `
                         <div class="notFound">
                             <h1>Not Found</h1>
@@ -732,17 +734,45 @@
             } 
         }  
         getItems();
-        // }else{
-        //     const main = document.querySelector('body');
-        //     main.innerHTML = `
-        //         <div class="notFound">
-        //             <h1>Please Login</h1>
-        //         </div>
-        //     `;
-        //     setTimeout(() => {
-        //         window.location.href = './login.html';
-        //     }, 2000);
-        // }
+        }else{
+
+            
+            function getItems(){
+            let items = JSON.parse(localStorage.getItem('items'));
+            if(items){
+                
+                if(items.length > 0){
+                    
+                    items.forEach((item,index) => {
+                        if(item.status == 'active'){
+                            let card = document.createElement('div');
+                            card.classList.add('card');
+                            card.classList.add(`div${index}`);
+                            card.innerHTML = `
+                            <img src="${item.imageUrl}" alt="">
+                            <div class="card-body">
+                                <p class="card-title">${item.name}</p>
+                                <p class="card-price">₹${item.price}</p>
+                                <p class="card-text">${item.description}</p>
+                                <button class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
+                            </div>
+                        `;
+                            document.querySelector('main').appendChild(card);
+                        }
+                        else{
+                            console.log('no items');
+                        }
+                    });
+                } 
+            } 
+
+            popUpSearchDiv.style.display = 'none !important';
+            navbarLinks.innerHTML = `<img src="./img/1.png">`;
+            logOut.innerHTML = `<a href="./login.html">Login</a>`;
+        }  
+            getItems();
+            
+        }
 
 
     </script>
