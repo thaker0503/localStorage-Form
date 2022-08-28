@@ -4,12 +4,145 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
     <script src="./app.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.css"/>
     <title>Dashboard</title>
+    <style>
+        @import url('http://fonts.cdnfonts.com/css/poppins');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+
+}
+body{
+    background-color: #f5f5f5;
+    position: relative;
+}
+.navbar{
+    width: 100%;
+    height: 50px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+    padding: 0 20px;
+    position: static;
+}
+.navbar a{
+    text-decoration: none;
+    color: #000;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.navbar-links{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.navbar-links img{
+    margin-top: 10px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+.navbar-cart{
+    width: 50%;
+    
+}
+.navbar-cart a{
+    float: right;
+}
+.navbar-cart a i{
+    font-size: 20px;
+    color: rgb(21, 21, 61);
+}
+.navbar-cart a span{
+    font-size: 20px;
+    color: rgb(21, 21, 61);
+    margin-left: 10px;
+}
+.search-bar{
+            width: 100%;
+            height: 50px;
+            /* background-color: #fff; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+            /* margin-top: 20px; */
+            position: static;
+        }
+        .search-bar input{
+            width: 50%;
+            height: 30px;
+            outline: none;
+            border: none;
+            padding: 0 5px;
+            border-bottom: 1px solid rgb(21, 21, 61);
+            /* border-radius: 20px; */
+            /* box-shadow: 0px 5px 10px 5px rgba(0,0,0,0.1); */
+            position: relative;
+        }
+        .search-icon{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            right: 40%;
+            border: none;
+            background-color: transparent;
+            opacity: .5;
+            /* position: absolute; */
+        }
+        .cross-icon{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            right: 39%;
+            border: none;
+            background-color: transparent;
+            opacity: 1;
+            position: absolute;
+            
+        }
+    </style>
 </head>
 <body>
+    <div class="navbar">
+        <div class="navbar-links">
+            
+        </div>
+        <div class="search-bar" >
+            <button class="search-icon">
+                <i class="fa fa-magnifying-glass"></i>
+            </button>
+            <input type="text" placeholder="Search..." id="searchBar"> 
+            <button class="cross-icon">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+        </div>
+        <div class="navbar-cart">
+            <a href="./cart.html"><i class="fa-solid fa-cart-shopping"  ></i><span id="cart">Cart 0</span></a>
+        </div>
+        <div class="logOut">
+            <a onclick="logout(event)">Log Out</a>
+        </div>
+    </div>
     <main>
         <div id="loader" class="loading">
             <img src="./img/ZZ5H.gif" alt="">

@@ -374,7 +374,7 @@
                 <input type="text" name="name" placeholder="Name" />
                 <input type="text" name="email" placeholder="Email" />
                 <input type="text" name="password" placeholder="Password" />
-                <button type="submit" name="addAdmin" id="addAdmin" value="Add Admin" onclick="">Add
+                <button type="submit" name="addAdmin" id="addAdmin" value="Add Admin" onclick="addNewAdminToLoacal()">Add
                     Admin</button>
             </form>
         </div>
@@ -466,6 +466,66 @@
             })
         }
 
+        function addNewAdminToLoacal(){
+            let addAdminForm = document.getElementById("addAdminForm"),
+            name = addAdminForm['name'].value,
+            email = addAdminForm['email'].value,
+            pwd = addAdminForm['password'].value,
+            isLoggedIn = false,
+            isAdmin = true;
+
+            const formData = JSON.parse(localStorage.getItem("formData"));
+            let exist = formData.length && JSON.parse(localStorage.getItem('formData')).some(data => data.email.toLowerCase() == email.toLowerCase()); 
+
+
+            if (validateEmail(email) && validatePassword(pwd) && validateName(name)) {
+            if (!exist) {
+                formData.push({ name, email, pwd, isLoggedIn,isAdmin });
+                localStorage.setItem('formData', JSON.stringify(formData));
+                alert("Admin Created Successfully!!");
+            }
+            else {
+                alert("Ooopppssss... Duplicate found!!!\nYou have already signed up\nPlease Sign In");
+                // location.href = "./login.html";
+
+                }
+            }
+            else {
+                if (!validateName(name)) {
+                    const element = document.querySelector("#invalidName");
+                    element.style.setProperty("--invalid-error-message", "block");
+                    
+                }
+                else if (!validateEmail(email)) {
+                    const element = document.querySelector("#invalidEmail");
+                    element.style.setProperty("--invalid-error-message", "block");
+                }
+                else if (!validatePassword(pwd)) {
+                    const element = document.querySelector("#invalidPassword");
+                    element.style.setProperty("--invalid-error-message", "block");
+                }
+                
+            }
+        }
+
+
+
+        function validateEmail(email) {
+            var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            return re.test(email);
+        }
+
+        function validatePassword(password) {
+            var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+            return re.test(password);
+        }
+
+        function validateName(name) {
+            var re = /^[a-zA-Z ]{2,30}$/;
+            return re.test(name);
+        }
+
+
         function editItem(index) {
             console.log(index);
             var popUpEdit = document.getElementById("popUpEdit");
@@ -516,6 +576,8 @@
             localStorage.removeItem('items');
             localStorage.setItem('items', JSON.stringify(items));
         }
+
+
 
 
         function getItems() {
