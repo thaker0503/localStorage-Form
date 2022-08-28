@@ -413,6 +413,10 @@
             e.preventDefault();
         }
 
+        
+        
+        
+        const url = location.href;
         const searchBar = document.getElementById('searchBar');
         const searchIcon = document.querySelector('.search-icon');
         const crossIcon = document.querySelector('.cross-icon');
@@ -433,16 +437,18 @@
         const users = JSON.parse(localStorage.getItem('formData'));
         const id = location.search.split('?')[1];   
 
-        if(users[id].isLoggedIn){
+        if(url.includes('?') && users[id].isLoggedIn){
             if(users[id].isAdmin) {
-                navbarLinks.innerHTML = `
-                <a onclick="adminLink()">Admin</aid=>
+                navbarLinks.innerHTML += `
+                <a onclick="adminLink()">Admin</a>
                 <a onclick="userLink()">User</a>
+                <a onclick="dashboard()">Dashboard</a>
                 `;
                 
         }
         else {
-            navbarLinks.innerHTML = `<img src="./img/1.png">`;
+            navbarLinks.innerHTML = `<img src="./img/1.png">
+            <a onclick="dashboard()">Dashboard</a>`;
         }
 
         function adminLink() {
@@ -450,6 +456,9 @@
         };
         function userLink(){
                     window.location.replace('./user.html?'+id);
+        };
+        function dashboard(){
+                    window.location.replace('./dashboard.html?'+id);
         };
 
 

@@ -83,9 +83,16 @@ function logout(e) {
 function displayUserDetails(index) {
     let formData = JSON.parse(localStorage.getItem('formData'));
     let userDetails = formData[index];
+    let userName = document.getElementById("userName");
+    let userEmail = document.getElementById("userEmail");
+    let userRole = document.getElementById("userRole");
+
     // check if user is logged in
     if (userDetails.isLoggedIn) {
-        location.href = "./user.html?" + index;
+        userName.innerHTML += userDetails.name;
+        userEmail.innerHTML += userDetails.email;
+        userRole.innerHTML += userDetails.isAdmin ? "Admin" : "User";
+        // location.href = "./user.html?" + index;
     }
     else {
         alert("Please Sign In");
